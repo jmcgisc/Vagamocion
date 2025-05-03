@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 
 const testimonios = [
   {
-    nombre: "María López",
-    texto: "¡El mejor viaje de mi vida! Todo fue perfecto y súper bien organizado.",
-    imagen: "/images/user1.jpg",
+    nombre: "Janette",
+    texto: "Estamos muy contentos con el Tour Royal Garrafón, todo muy bien muy puntuales el lugar muy padre y la comida súper rica, además de que nos dieron opción de quedarnos ahí hasta el cierre o irnos al centro de La Isla a conocer otra playa",
+    imagen: "/images/user3.jpg",
   },
   {
     nombre: "Carlos Herrera",

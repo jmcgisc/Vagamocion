@@ -17,8 +17,8 @@ export default function Hero() {
             <img
                 src="/logo.png"
                 alt="Logo Vagamocion Travel"
-                className="h-14 md:h-20 w-auto object-contain"
-            />
+                className="h-12 sm:h-14 md:h-16 w-auto max-w-[80px] transition-transform duration-200 ease-in-out hover:scale-110"
+                />
             </div>
 
             {/* Texto solo "Vagamocion" en sm y md */}
@@ -31,18 +31,18 @@ export default function Hero() {
             {/* Texto completo en lg+ */}
             <div className="hidden lg:flex flex-col ml-4">
             <span className="flex flex-col">
-                                <span className="text-4xl font-extrabold text-aqua dark:text-white tracking-wide transition duration-300 group-hover:text-blue-600 dark:group-hover:text-blue-400">
-                                    Vagamocion
-                                </span>
-                                <span className="text-2xl font-bold text-primary dark:text-gray-300 ml-24 tracking-widest">
-                                    Travel
-                                </span>
-                            </span>
+                <span className="text-4xl font-extrabold text-aqua dark:text-white tracking-wide transition duration-300 group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                    Vagamocion
+                </span>
+                <span className="text-2xl font-bold text-primary dark:text-gray-300 ml-24 tracking-widest">
+                    Travel
+                </span>
+            </span>
             </div>
         </Link>
         
         {/* Navbar centrado */}
-        <nav className="hidden md:flex flex-1 justify-center gap-8">
+        <nav className="hidden md:flex flex-1 justify-center gap-24 ">
         {[
             { label: "Inicio", href: "#inicio" },
             { label: "Destinos", href: "#destinos" },
@@ -52,9 +52,9 @@ export default function Hero() {
             <a
             key={index}
             href={item.href}
-            className="relative group text-gray-700 dark:text-gray-300 font-medium"
+            className="relative group text-gray-800 font-poppins tracking-wide hover:text-secondary transition-colors duration-300 "
             >
-            <span className="group-hover:text-blue-600 transition">
+            <span className="group-hover:text-secondary transition">
                 {item.label}
             </span>
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
