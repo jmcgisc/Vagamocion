@@ -22,11 +22,7 @@ export default function Home() {
           </h2>
           <p className="text-lg text-gray-600">
            
-          En Vagamocion Travel transformamos tus sueños en experiencias inolvidables. Somos una agencia de viajes en línea comprometida con brindarte servicios personalizados, desde paquetes vacacionales y reservas de vuelos, hoteles, cruceros y tours exclusivos. Planeamos cada detalle de tu viaje para garantizarte calidad y comodidad. Ya sea que busques una escapada romántica, una salida familiar, aventura con tus amigos, incluso un viaje de negocios. Nuestro equipo de expertos está disponible para ayudarte. ¡Descubre el mundo con nosotros y vive momentos únicos que recordarás toda tu vida!
-
-          Agencia de viajes en línea que transforma sueños en experiencias inolvidables, planeando cada detalle para garantizar calidad y comodidad en tus viajes
-           
-            Diseñamos experiencias a medida para que vivas cada destino como un local. Descubre, disfruta y déjalo en nuestras manos.
+           Transformamos tus sueños en experiencias inolvidables. ¡Descubre el mundo con nosotros y vive momentos únicos que recordarás toda tu vida!
           </p>
           <div className="flex justify-center md:justify-start gap-4">
             <button className="bg-blue-600 text-white px-6 py-3 rounded-full shadow hover:bg-blue-700">
