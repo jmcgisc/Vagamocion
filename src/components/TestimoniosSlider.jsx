@@ -1,67 +1,103 @@
-import { useState, useEffect } from "react";
-
-const testimonios = [
-  {
-    nombre: "Janette",
-    texto: "Estamos muy contentos con el Tour Royal Garrafón, todo muy bien muy puntuales el lugar muy padre y la comida súper rica, además de que nos dieron opción de quedarnos ahí hasta el cierre o irnos al centro de La Isla a conocer otra playa",
-    imagen: "/images/user3.jpg",
-  },
-  {
-    nombre: "Carlos Herrera",
-    texto: "Recomiendo Viajando a todo el mundo. Atención de primera y destinos increíbles.",
-    imagen: "/images/user2.jpg",
-  },
-  {
-    nombre: "Lucía Martínez",
-    texto: "Desde que llegamos al aeropuerto hasta el último día, todo fue mágico.",
-    imagen: "/images/user3.jpg",
-  },
-];
+import { useState, useEffect, useRef } from "react";
+import { useSwipeable } from "react-swipeable";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 export default function TestimoniosSlider() {
+  const [testimonios, setTestimonios] = useState([]);
   const [current, setCurrent] = useState(0);
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % testimonios.length);
-    }, 5000);
-    return () => clearInterval(interval);
+    // Cargar testimonios desde el JSON
+    fetch("/testimonios.json")
+      .then((res) => res.json())
+      .then(setTestimonios)
+      .catch((err) => console.error("Error cargando testimonios:", err));
   }, []);
 
-  return (
-    <section className="bg-white px-8 md:px-20 py-16 text-center relative">
-      <h3 className="text-3xl font-bold text-gray-800 mb-10">Testimonios</h3>
+  useEffect(() => {
+    if (testimonios.length > 0) {
+      timeoutRef.current = setTimeout(() => {
+        setCurrent((prev) => (prev + 1) % testimonios.length);
+      }, 6000);
+    }
+    return () => clearTimeout(timeoutRef.current);
+  }, [current, testimonios]);
 
-      <div className="max-w-2xl mx-auto relative min-h-[220px]">
+  const handlers = useSwipeable({
+    onSwipedLeft: () => setCurrent((prev) => (prev + 1) % testimonios.length),
+    onSwipedRight: () =>
+      setCurrent((prev) => (prev - 1 + testimonios.length) % testimonios.length),
+    trackMouse: true,
+  });
+
+  if (testimonios.length === 0) {
+    return <p className="text-center py-10">Cargando testimonios...</p>;
+  }
+
+  // Funciones de cambio de testimonios
+  const goToPrevious = () => setCurrent((prev) => (prev - 1 + testimonios.length) % testimonios.length);
+  const goToNext = () => setCurrent((prev) => (prev + 1) % testimonios.length);
+
+  return (
+    <section className="bg-gradient-to-b from-white to-blue-50 px-4 sm:px-6 md:px-20 py-24 text-center relative">
+      <h3 className="text-4xl font-extrabold text-gray-800 mb-12">
+        Testimonios de nuestros viajeros
+      </h3>
+
+      <div
+        {...handlers}
+        className="relative max-w-3xl mx-auto min-h-[380px] sm:min-h-[400px] transition-all"
+      >
+        {/* Cards de Testimonios */}
         {testimonios.map((t, index) => (
           <div
             key={index}
-            className={`transition-opacity duration-700 ${
-              index === current ? "opacity-100 relative" : "opacity-0 absolute"
+            className={`absolute inset-0 px-6 sm:px-10 transition-all duration-700 ease-in-out ${
+              index === current
+                ? "opacity-100 scale-100 z-10"
+                : "opacity-0 scale-95 z-0 pointer-events-none"
             }`}
           >
-            <img
-              src={t.imagen}
-              alt={t.nombre}
-              className="mx-auto w-24 h-24 rounded-full object-cover mb-4"
-            />
-            <p className="text-lg italic text-gray-600">"{t.texto}"</p>
-            <p className="mt-4 font-semibold text-gray-800">{t.nombre}</p>
+            <div className="bg-white border border-gray-100 shadow-xl rounded-3xl p-10 sm:p-12 h-full flex flex-col items-center justify-center text-left">
+              <img
+                src={t.imagen}
+                alt={t.nombre}
+                className="w-24 h-24 rounded-full object-cover mb-6 border-4 border-blue-500 shadow"
+              />
+              <p className="text-xl text-gray-700 italic relative leading-relaxed">
+                <span className="text-5xl text-blue-400 absolute top-[-10px] left-[-20px]">
+                  “
+                </span>
+                {t.texto}
+                <span className="text-5xl text-blue-400 absolute bottom-[-20px] right-[-20px]">
+                  ”
+                </span>
+              </p>
+              <p className="mt-6 text-lg font-semibold text-blue-800">{t.nombre}</p>
+            </div>
           </div>
         ))}
       </div>
 
-      <div className="flex justify-center gap-3 mt-6">
-        {testimonios.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrent(index)}
-            className={`h-3 w-3 rounded-full transition-all duration-300 ${
-              index === current ? "bg-blue-600 w-6" : "bg-gray-300"
-            }`}
-          />
-        ))}
-      </div>
+      {/* Botón anterior fuera de las cards (más cerca) */}
+      <button
+        onClick={goToPrevious}
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 hover:bg-blue-100 text-gray-700 p-3 rounded-full shadow-lg transition"
+        aria-label="Anterior"
+      >
+        <FontAwesomeIcon icon={faChevronLeft} className="text-xl" />
+      </button>
+
+      {/* Botón siguiente fuera de las cards (más cerca) */}
+      <button
+        onClick={goToNext}
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 hover:bg-blue-100 text-gray-700 p-3 rounded-full shadow-lg transition"
+        aria-label="Siguiente"
+      >
+        <FontAwesomeIcon icon={faChevronRight} className="text-xl" />
+      </button>
     </section>
   );
 }
