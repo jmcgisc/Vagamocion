@@ -4,6 +4,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function HamburgerMenu() {
   const [open, setOpen] = useState(false);
 
+  // Lista de secciones
+  const links = [
+    { label: "Inicio", href: "#inicio" },
+    { label: "Servicios", href: "#servicios" },
+    { label: "Experiencias", href: "#experiencias" },
+    { label: "Contacto", href: "#contacto" },
+  ];
+
   return (
     <>
       {/* Botón hamburguesa */}
@@ -39,10 +47,17 @@ export default function HamburgerMenu() {
               className="fixed top-0 right-0 w-64 h-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg z-50 p-6 flex flex-col space-y-6 text-lg text-gray-800 dark:text-white"
             >
               <button onClick={() => setOpen(false)} className="self-end text-gray-500 hover:text-red-500">✕</button>
-              <a href="#inicio" className="hover:text-blue-600">Inicio</a>
-              <a href="#servicios" className="hover:text-blue-600">Servicios</a>
-              <a href="#experiencias" className="hover:text-blue-600">Experiencias</a>
-              <a href="#contacto" className="hover:text-blue-600">Contacto</a>
+              
+              {links.map(({ label, href }, i) => (
+                <a
+                  key={i}
+                  href={href}
+                  onClick={() => setOpen(false)}
+                  className="hover:text-blue-600 transition-colors duration-200"
+                >
+                  {label}
+                </a>
+              ))}
             </motion.div>
           </>
         )}

@@ -40,26 +40,39 @@ export default function Hero() {
                             </span>
             </div>
         </Link>
-
+        
         {/* Navbar centrado */}
-        <nav className="hidden md:flex flex-1 justify-center gap-14 text-gray-700 dark:text-gray-300">
-            <a href="#" className="hover:text-blue-600">Inicio</a>
-            <a href="#" className="hover:text-blue-600">Destinos</a>
-            <a href="#" className="hover:text-blue-600">Ofertas</a>
-            <a href="#" className="hover:text-blue-600">Contacto</a>
+        <nav className="hidden md:flex flex-1 justify-center gap-8">
+        {[
+            { label: "Inicio", href: "#inicio" },
+            { label: "Destinos", href: "#destinos" },
+            { label: "Ofertas", href: "#ofertas" },
+            { label: "Contacto", href: "#contacto" }
+        ].map((item, index) => (
+            <a
+            key={index}
+            href={item.href}
+            className="relative group text-gray-700 dark:text-gray-300 font-medium"
+            >
+            <span className="group-hover:text-blue-600 transition">
+                {item.label}
+            </span>
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+            </a>
+        ))}
         </nav>
 
-  {/* Controles a la derecha */}
-  <div className="flex items-center space-x-4">
-    <DarkModeToggle />
-    <button className="hidden lg:inline-block bg-secondary text-white px-4 py-2 rounded-full text-sm hover:bg-aqua transition">
-      Reserva ahora
-    </button>
-    <div className="md:hidden">
-      <HamburgerMenu />
-    </div>
-  </div>
-</header>
+        {/* Controles a la derecha */}
+        <div className="flex items-center space-x-4">
+            <DarkModeToggle />
+            <button className="hidden lg:inline-block bg-secondary text-white px-4 py-2 rounded-full text-sm hover:bg-aqua transition">
+            Reserva ahora
+            </button>
+            <div className="md:hidden">
+            <HamburgerMenu />
+            </div>
+        </div>
+        </header>
 
       {/* Línea decorativa inferior */}
       <div className="w-full h-[1px] bg-gray-200 dark:bg-gray-700" />
