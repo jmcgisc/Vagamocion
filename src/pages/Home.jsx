@@ -97,13 +97,8 @@ export default function Home() {
     <CtaViaje />
 
     <ExperienciasGrid />
-      <section id="mapa" className="py-16 bg-gray-100 dark:bg-gray-900">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-gray-100">
-            Encuéntranos
-          </h2>
-          <MapaInteractivo />
-        </div>
+      <section id="mapa" className=" dark:bg-gray-900"> 
+          <MapaInteractivo /> 
       </section>
 
       <section id="contacto" className="py-16 bg-white dark:bg-gray-950">

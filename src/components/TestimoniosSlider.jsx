@@ -60,18 +60,19 @@ export default function TestimoniosSlider() {
                 : "opacity-0 scale-95 z-0 pointer-events-none"
             }`}
           >
-            <div className="bg-white border border-gray-100 shadow-xl rounded-3xl p-10 sm:p-12 h-full flex flex-col items-center justify-center text-left">
+            <div className="bg-white border border-gray-100 shadow-xl rounded-3xl p-6 sm:p-10 h-full flex flex-col items-center justify-center text-left">
               <img
                 src={t.imagen}
                 alt={t.nombre}
-                className="w-24 h-24 rounded-full object-cover mb-6 border-4 border-blue-500 shadow"
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover mb-6 border-4 border-blue-500 shadow"
               />
-              <p className="text-xl text-gray-700 italic relative leading-relaxed">
-                <span className="text-5xl text-blue-400 absolute top-[-10px] left-[-20px]">
+              <p className="text-lg sm:text-xl text-gray-700 italic relative leading-relaxed">
+                <span className="text-4xl sm:text-5xl text-blue-400 absolute top-[-10px] left-[-20px]">
                   “
                 </span>
-                {t.texto}
-                <span className="text-5xl text-blue-400 absolute bottom-[-20px] right-[-20px]">
+                {/* Limitar el número de líneas de texto */}
+                <span className="line-clamp-4">{t.texto}</span>
+                <span className="text-4xl sm:text-5xl text-blue-400 absolute bottom-[-20px] right-[-20px]">
                   ”
                 </span>
               </p>
@@ -81,23 +82,38 @@ export default function TestimoniosSlider() {
         ))}
       </div>
 
-      {/* Botón anterior fuera de las cards (más cerca) */}
+      {/* Botón anterior fuera de las cards (más cerca y ajustado a móvil) */}
       <button
         onClick={goToPrevious}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 hover:bg-blue-100 text-gray-700 p-3 rounded-full shadow-lg transition"
+        className="absolute left-4 sm:left-6 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 hover:bg-blue-100 text-gray-700 p-3 rounded-full shadow-lg transition hidden md:block"
         aria-label="Anterior"
       >
         <FontAwesomeIcon icon={faChevronLeft} className="text-xl" />
       </button>
 
-      {/* Botón siguiente fuera de las cards (más cerca) */}
+      {/* Botón siguiente fuera de las cards (más cerca y ajustado a móvil) */}
       <button
         onClick={goToNext}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 hover:bg-blue-100 text-gray-700 p-3 rounded-full shadow-lg transition"
+        className="absolute right-4 sm:right-6 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 hover:bg-blue-100 text-gray-700 p-3 rounded-full shadow-lg transition hidden md:block"
         aria-label="Siguiente"
       >
         <FontAwesomeIcon icon={faChevronRight} className="text-xl" />
       </button>
+
+      {/* Dots indicadores solo para móviles */}
+      <div className="flex justify-center mt-10 gap-3 md:hidden">
+        {testimonios.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrent(index)}
+            className={`h-4 w-4 sm:h-5 sm:w-5 rounded-full transition-all duration-300 ${
+              index === current
+                ? "bg-secondary w-7 h-7 sm:w-8 sm:h-8 shadow-lg scale-110"
+                : "bg-gray-300"
+            }`}
+          />
+        ))}
+      </div>
     </section>
   );
 }
