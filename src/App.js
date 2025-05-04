@@ -8,6 +8,7 @@ import Urban        from './pages/Urban';
 import Tropical     from './pages/Tropical';
 import Illustrated  from './pages/Illustrated';
 import Home         from './pages/Home';
+import Ofertas      from "./pages/Ofertas";
 
 const pageVariants = {
   initial: { opacity: 0, y: 20 },
@@ -44,11 +45,12 @@ export default function App() {
               </PageWrapper>
             }
           />
+
           <Route
-            path="minimalist"
+            path="ofertas"
             element={
               <PageWrapper>
-                <Minimalist />
+                <Ofertas />
               </PageWrapper>
             }
           />
