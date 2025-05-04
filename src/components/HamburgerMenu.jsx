@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from "react-router-dom";
 
 export default function HamburgerMenu() {
   const [open, setOpen] = useState(false);
@@ -9,6 +10,7 @@ export default function HamburgerMenu() {
     { label: "Servicios", href: "#servicios" },
     { label: "Experiencias", href: "#experiencias" },
     { label: "Contacto", href: "#contacto" },
+
   ];
 
   return (
@@ -53,13 +55,18 @@ export default function HamburgerMenu() {
                     className="hover:text-blue-600 transition-colors duration-200 block"
                   >
                     {label}
-                  </a>
+                  </a>                
                   <hr className="border-t border-gray-300 dark:border-gray-700" />
+                  
                 </div>
+
               ))}
 
+              <Link className="py-2 inset-x-0 bottom-0 h-10 " onClick={() => setOpen(false)} to="/ofertas">Ofertas</Link>
+
+
               {/* Tarjeta de contacto con íconos */}
-              <div className="mt-6 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md text-sm space-y-2">
+              <div className="mt-20 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md text-sm space-y-4">
                 <p className="font-semibold text-gray-700 dark:text-white h-8">¿Necesitas ayuda?</p>
                 <p className="text-gray-600 dark:text-gray-300 h-8"> <a href="mailto:admin@vagamociontravel.com" className="text-blue-600 dark:text-blue-400 underline text-xs">admin@vagamociontravel.com</a></p>
                 <p className="text-gray-600 dark:text-gray-300 h-8">📞 <span className="font-semibold">+52 55 1234 5678</span></p>

@@ -10,7 +10,7 @@ const Ofertas = () => {
         {/* Header */}
         <Hero /> 
       
-        <h1 className="text-3xl md:text-5xl font-bold text-center mb-6 text-blue-700 dark:text-purple-400 h-26 py-28">
+        <h1 className="text-3xl md:text-5xl font-poppins text-center mb-6 text-secondary dark:text-primary h-16 py-28">
             Ofertas Exclusivas
         </h1>
 
