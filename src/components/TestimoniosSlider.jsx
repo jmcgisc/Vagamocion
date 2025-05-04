@@ -76,7 +76,8 @@ export default function TestimoniosSlider() {
                   ”
                 </span>
               </p>
-              <p className="mt-6 text-lg font-semibold text-blue-800">{t.nombre}</p>
+              <p className="mt-6 text-lg font-semibold text-primary">{t.nombre}</p>
+              <p className="text-sm text-gray-500">{new Date(t.fecha).toLocaleDateString()}</p>
             </div>
           </div>
         ))}

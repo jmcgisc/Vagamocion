@@ -2,6 +2,7 @@ import DarkModeToggle from "../components/DarkModeToggle";
 import HamburgerMenu from "../components/HamburgerMenu";
 import { Link } from "react-router-dom";
 
+
 export default function Hero() {
   return (
     <>
@@ -45,8 +46,7 @@ export default function Hero() {
           <nav className="hidden md:flex flex-1 justify-center gap-24">
             {[
               { label: "Inicio", href: "#inicio" },
-              { label: "Destinos", href: "#destinos" },
-              { label: "Ofertas", href: "#ofertas" },
+              { label: "Destinos", href: "#destinos" }, 
               { label: "Contacto", href: "#contacto" },
             ].map((item, index) => (
               <a
@@ -60,7 +60,8 @@ export default function Hero() {
                 <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
               </a>
             ))}
-                    <Link to="/ofertas" className="...">Ofertas</Link>
+            
+            <Link to="/ofertas" className="...">Ofertas</Link>
 
           </nav>
 
