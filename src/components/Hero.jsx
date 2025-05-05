@@ -43,27 +43,37 @@ export default function Hero() {
           </Link>
 
           {/* Navbar centrado */}
-          <nav className="hidden md:flex flex-1 justify-center gap-24">
-            {[
-              { label: "Inicio", href: "#inicio" },
-              { label: "Destinos", href: "#destinos" }, 
-              { label: "Contacto", href: "#contacto" },
-            ].map((item, index) => (
-              <a
-                key={index}
-                href={item.href}
-                className="relative group text-gray-800 font-poppins tracking-wide hover:text-secondary transition-colors duration-300"
-              >
+        <nav className="hidden tracking-widest md:flex flex-1 justify-center gap-24">
+            <Link
+                to="/"
+                className="relative group text-gray-800 dark:text-gray-300 font-Montserrat tracking-wide hover:text-secondary transition-colors duration-300"
+            >
                 <span className="group-hover:text-secondary transition">
-                  {item.label}
+                INICIO
                 </span>
-                <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
-              </a>
-            ))}
-            
-            <Link to="/ofertas" className="...">Ofertas</Link>
+                <span className="hover:text-primary absolute left-0 -bottom-1 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+            </Link>
 
-          </nav>
+            <a
+                href="#destinos"
+                className="relative group text-gray-800 dark:text-gray-300 font-Montserrat tracking-wide hover:text-secondary transition-colors duration-300"
+            >
+                <span className="group-hover:text-secondary transition">DESTINOS</span>
+                <span className="hover:text-primary absolute left-0 -bottom-1 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+            </a>
+
+            <a
+                href="#contacto"
+                className="relative group text-gray-800 dark:text-gray-300 font-Montserrat tracking-wide hover:text-secondary transition-colors duration-300"
+            >
+                <span className="group-hover:text-secondary transition">CONTACTO</span>
+                <span className="hover:text-primary absolute left-0 -bottom-1 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+            </a>
+
+            <Link to="/ofertas" className="hover:text-primary dark:text-gray-300 duration-300">
+                OFERTAS
+            </Link>
+        </nav>
 
           {/* Controles a la derecha */}
           <div className="flex items-center space-x-4">
