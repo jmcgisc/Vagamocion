@@ -10,7 +10,21 @@ import Footer from "../components/Footer";
 
 export default function Home() {
   return (
-    <div className="pt-28 min-h-screen bg-white text-gray-800">
+    <div className="pt-28 min-h-screen relative bg-white text-gray-800 overflow-hidden">
+
+    {/* Imagen de fondo con transparencia */}
+    <div className="absolute inset-0 z-0">
+      <img
+        src="/images/fondo-viajes.jpg"
+        alt="Fondo viajes"
+        className="w-full h-full object-cover opacity-10"
+      />
+    </div>
+  
+    {/* Contenido por encima del fondo */}
+    <div className="relative z-10">
+      {/* Aquí va todo tu contenido actual como <Hero />, secciones, etc. */}
+    </div> 
     {/* Header */}
     <Hero /> 
 
