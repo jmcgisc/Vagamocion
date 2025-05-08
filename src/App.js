@@ -1,14 +1,21 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion }    from 'framer-motion';
+import { useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
 
 import Layout from './components/Layout';
-import Minimalist   from './pages/Minimalist';
-import Adventure    from './pages/Adventure';
-import Urban        from './pages/Urban';
-import Tropical     from './pages/Tropical';
-import Illustrated  from './pages/Illustrated';
-import Home         from './pages/Home';
-import Ofertas      from "./pages/Ofertas";
+import Home from './pages/Home';
+import Minimalist from './pages/Minimalist';
+import Adventure from './pages/Adventure';
+import Urban from './pages/Urban';
+import Tropical from './pages/Tropical';
+import Illustrated from './pages/Illustrated';
+
+
+// Lazy loaded
+const Ofertas = lazy(() => import('./pages/Ofertas'));
+const Disclaimer = lazy(() => import("./components/Disclaimer"));
+
 
 const pageVariants = {
   initial: { opacity: 0, y: 20 },
@@ -32,9 +39,9 @@ function PageWrapper({ children }) {
 
 export default function App() {
   const location = useLocation();
-      {/* Layout */}
+
   return (
-      
+    <Suspense fallback={<div className="text-center p-20">Cargando página...</div>}>
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route
@@ -47,13 +54,25 @@ export default function App() {
           />
 
           <Route
-            path="ofertas"
+            path="/ofertas"
             element={
               <PageWrapper>
                 <Ofertas />
               </PageWrapper>
             }
           />
+
+          <Route
+            path="/disclaimer"
+            element={
+              <PageWrapper>
+                <Suspense fallback={<div className="text-center py-10">Cargando disclaimer...</div>}>
+                  <Disclaimer />
+                </Suspense>
+              </PageWrapper>
+            }
+          />
+
           <Route
             path="/aventura"
             element={
@@ -88,5 +107,6 @@ export default function App() {
           />
         </Routes>
       </AnimatePresence>
+    </Suspense>
   );
 }

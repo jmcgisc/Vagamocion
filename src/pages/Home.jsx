@@ -7,9 +7,11 @@ import FormularioContacto from "../components/FormularioContacto";
 import Servicios from "../components/Servicios";
 import WhatsAppFloat from "../components/WhatsAppFloat";
 import Footer from "../components/Footer";
+import QuienesSomos from "../components/QuienesSomos";
 
 export default function Home() {
   return (
+    
     <div className="pt-28 min-h-screen relative bg-white text-gray-800 overflow-hidden">
 
     {/* Imagen de fondo con transparencia */}
@@ -23,7 +25,7 @@ export default function Home() {
   
     {/* Contenido por encima del fondo */}
     <div className="relative z-10">
-      {/* Aquí va todo tu contenido actual como <Hero />, secciones, etc. */}
+  
     </div> 
     {/* Header */}
     <Hero /> 
@@ -108,6 +110,7 @@ export default function Home() {
 
     <Servicios/>
     <TestimoniosSlider />
+    <QuienesSomos />
     <CtaViaje />
 
     <ExperienciasGrid />
@@ -125,5 +128,6 @@ export default function Home() {
       <Footer/>
 
     </div>
+    
   );
 }

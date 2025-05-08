@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 
 export default function RedesSociales() {
   return (
-    <footer className="bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 py-10 px-6 sm:px-12">
+    <footer className="bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 py-10 px-6 sm:px-12 relative z-10 ">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-10 md:gap-20">
         
         {/* Logo y descripción */}
@@ -74,11 +74,21 @@ export default function RedesSociales() {
         </div>
       </div>
 
+      {/* Sección de Disclaimer */}
+      <div className="mt-10 text-center">
+        <Link
+          to="/disclaimer"
+          className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 underline transition"
+        >
+          Aviso Legal / Disclaimer
+        </Link>
+      </div>
+
       {/* Derechos reservados y Powered by */}
-      <div className="mt-10 text-center text-xs text-gray-400 dark:text-gray-600">
+      <div className="mt-6 text-center text-xs text-gray-400 dark:text-gray-600">
         <p>© {new Date().getFullYear()} Vagamocion Travel. Todos los derechos reservados.</p>
-        <p className="mt-1 text-[11px] italic">
-          Powered by <span className="font-semibold text-indigo-500">CODEXA</span>
+        <p className="mt-1 text-[11px] italic"> Powered by 
+          <a href="https://codexa.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-indigo-500 transition"> CODEXA</a>
         </p>
       </div>
     </footer>
