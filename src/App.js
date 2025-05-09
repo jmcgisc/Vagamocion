@@ -1,21 +1,16 @@
-import { useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from 'framer-motion';
-import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { lazy, Suspense } from "react";
+import Spinner from './components/Spinner';  
 
-import Layout from './components/Layout';
-import Home from './pages/Home';
-import Minimalist from './pages/Minimalist';
-import Adventure from './pages/Adventure';
-import Urban from './pages/Urban';
-import Tropical from './pages/Tropical';
-import Illustrated from './pages/Illustrated';
-
-
-// Lazy loaded
-const Ofertas = lazy(() => import('./pages/Ofertas'));
+// Lazy load de páginas
+const Ofertas = lazy(() => import("./pages/Ofertas"));
+const Adventure = lazy(() => import("./pages/Adventure"));
+const Urban = lazy(() => import("./pages/Urban"));
+const Tropical = lazy(() => import("./pages/Tropical"));
+const Illustrated = lazy(() => import("./pages/Illustrated"));
+const Home = lazy(() => import("./pages/Home"));
 const Disclaimer = lazy(() => import("./components/Disclaimer"));
-
 
 const pageVariants = {
   initial: { opacity: 0, y: 20 },
@@ -41,72 +36,31 @@ export default function App() {
   const location = useLocation();
 
   return (
-    <Suspense fallback={<div className="text-center p-20">Cargando página...</div>}>
-      <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait">
+      <Suspense fallback={<Spinner />}>
         <Routes location={location} key={location.pathname}>
-          <Route
-            path="/"
-            element={
-              <PageWrapper>
-                <Home />
-              </PageWrapper>
-            }
-          />
+          <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+          <Route path="/ofertas" element={<PageWrapper><Ofertas /></PageWrapper>} />
+          <Route path="/aventura" element={<PageWrapper><Adventure /></PageWrapper>} />
+          <Route path="/urbano" element={<PageWrapper><Urban /></PageWrapper>} />
+          <Route path="/tropical" element={<PageWrapper><Tropical /></PageWrapper>} />
+          <Route path="/ilustrado" element={<PageWrapper><Illustrated /></PageWrapper>} /> 
 
-          <Route
-            path="/ofertas"
-            element={
-              <PageWrapper>
-                <Ofertas />
-              </PageWrapper>
-            }
-          />
 
           <Route
             path="/disclaimer"
             element={
               <PageWrapper>
-                <Suspense fallback={<div className="text-center py-10">Cargando disclaimer...</div>}>
+                <Suspense fallback={<Spinner />}>
                   <Disclaimer />
                 </Suspense>
               </PageWrapper>
             }
           />
 
-          <Route
-            path="/aventura"
-            element={
-              <PageWrapper>
-                <Adventure />
-              </PageWrapper>
-            }
-          />
-          <Route
-            path="/urbano"
-            element={
-              <PageWrapper>
-                <Urban />
-              </PageWrapper>
-            }
-          />
-          <Route
-            path="/tropical"
-            element={
-              <PageWrapper>
-                <Tropical />
-              </PageWrapper>
-            }
-          />
-          <Route
-            path="/ilustrado"
-            element={
-              <PageWrapper>
-                <Illustrated />
-              </PageWrapper>
-            }
-          />
+
         </Routes>
-      </AnimatePresence>
-    </Suspense>
+      </Suspense>
+    </AnimatePresence>
   );
 }

@@ -62,7 +62,7 @@ export default function HamburgerMenu() {
 
               ))}
 
-              <Link className="py-2 inset-x-0 bottom-0 h-10 " onClick={() => setOpen(false)} to="/ofertas">Ofertas</Link>
+              <Link className="py-2 inset-x-0 bottom-0 h-10 " onClick={() => setOpen(false)} to="/ofertas">Ofertas Destacadas</Link>
 
 
               {/* Tarjeta de contacto con íconos */}

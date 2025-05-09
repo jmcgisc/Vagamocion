@@ -71,7 +71,7 @@ export default function Hero() {
             </a>
 
             <Link to="/ofertas" className="hover:text-primary dark:text-gray-300 duration-300">
-                OFERTAS
+                OFERTAS DESTACADAS
             </Link>
         </nav>
 

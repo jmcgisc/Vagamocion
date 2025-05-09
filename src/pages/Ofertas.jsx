@@ -30,7 +30,7 @@ const Ofertas = () => {
       <Hero />
 
       <h1 className="text-3xl md:text-5xl font-poppins text-center mb-6 text-secondary dark:text-primary h-16 py-28">
-        Ofertas Exclusivas
+        Ofertas Destacadas
       </h1>
 
       <div className="w-full max-w-7xl aspect-[3/4] md:aspect-[16/9]" ref={iframeRef}>

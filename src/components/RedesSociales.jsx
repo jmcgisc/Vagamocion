@@ -1,13 +1,14 @@
 import {
   FaFacebook,
-  FaInstagram,
-  FaTwitter,
+  FaInstagram, 
   FaWhatsapp,
   FaLinkedin,
 } from 'react-icons/fa';
+import { FaX } from "react-icons/fa6";
+
 import { MdEmail, MdPhone } from 'react-icons/md';
 import { HiLocationMarker } from 'react-icons/hi'; 
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; 
 
 export default function RedesSociales() {
   return (
@@ -43,11 +44,11 @@ export default function RedesSociales() {
           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition">
             <FaFacebook />
           </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition">
+          <a href="https://www.instagram.com/vagamocion_travel/" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition">
             <FaInstagram />
           </a>
           <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition">
-            <FaTwitter />
+            <FaX />
           </a>
           <a href="https://wa.me/525575597065" target="_blank" rel="noopener noreferrer" className="hover:text-green-500 transition">
             <FaWhatsapp />
@@ -75,14 +76,12 @@ export default function RedesSociales() {
       </div>
 
       {/* Sección de Disclaimer */}
-      <div className="mt-10 text-center">
-        <Link
+      <Link
           to="/disclaimer"
-          className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 underline transition"
+          className="text-sm text-gray-500 hover:text-secondary dark:text-gray-400 dark:hover:text-white transition"
         >
-          Aviso Legal / Disclaimer
-        </Link>
-      </div>
+          Aviso Legal
+      </Link>
 
       {/* Derechos reservados y Powered by */}
       <div className="mt-6 text-center text-xs text-gray-400 dark:text-gray-600">
