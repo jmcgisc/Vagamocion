@@ -68,27 +68,35 @@ export default function Home() {
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
     {/* Destino 1 */}
-      <div className="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
-        <img
-          src="/images/destino-paris.jpg"
-          alt="París"
-          className="w-full h-56 object-cover"
-        />
-        <div className="p-6">
-          <h4 className="text-xl font-semibold text-gray-800">París</h4>
-          <p className="text-gray-600 mt-2">Descubre la ciudad del amor con recorridos inolvidables.</p>
-        </div>
+    <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_0_30px_5px_#00fff7] transition-all duration-500">
+      {/* Imagen con efecto hover */}
+      <img
+        src="/images/destino-paris.jpg"
+        alt="Europa"
+        className="w-full h-56 object-cover transition duration-500 group-hover:scale-105"
+      />
+      
+      {/* Overlay brillante */}
+      <div className="absolute inset-0 rounded-2xl pointer-events-none group-hover:bg-[radial-gradient(circle,_rgba(0,255,247,0.2)_0%,_transparent_70%)] transition duration-500"></div>
+      
+      {/* Contenido */}
+      <div className="p-6 bg-white">
+        <h4 className="text-xl font-semibold text-gray-800">EUROPA</h4>
+        <p className="text-gray-600 mt-2">
+          Descubre la ciudad del amor con recorridos inolvidables.
+        </p>
       </div>
+    </div>
 
     {/* Destino 2 */}
       <div className="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
         <img
           src="/images/destino-bali.jpg"
-          alt="Bali"
+          alt="Japón"
           className="w-full h-56 object-cover"
         />
         <div className="p-6">
-          <h4 className="text-xl font-semibold text-gray-800">Bali</h4>
+          <h4 className="text-xl font-semibold text-gray-800">Japón</h4>
           <p className="text-gray-600 mt-2">Playas, templos y cultura exótica en un solo viaje.</p>
         </div>
       </div>
