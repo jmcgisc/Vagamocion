@@ -11,6 +11,7 @@ const Tropical = lazy(() => import("./pages/Tropical"));
 const Illustrated = lazy(() => import("./pages/Illustrated"));
 const Home = lazy(() => import("./pages/Home"));
 const Disclaimer = lazy(() => import("./components/Disclaimer"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const pageVariants = {
   initial: { opacity: 0, y: 20 },
@@ -45,6 +46,7 @@ export default function App() {
           <Route path="/urbano" element={<PageWrapper><Urban /></PageWrapper>} />
           <Route path="/tropical" element={<PageWrapper><Tropical /></PageWrapper>} />
           <Route path="/ilustrado" element={<PageWrapper><Illustrated /></PageWrapper>} /> 
+          <Route path="*" element={<NotFound />} />
 
 
           <Route
