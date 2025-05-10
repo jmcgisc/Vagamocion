@@ -8,8 +8,38 @@ import Servicios from "../components/Servicios";
 import WhatsAppFloat from "../components/WhatsAppFloat";
 import Footer from "../components/Footer";
 import QuienesSomos from "../components/QuienesSomos";
+import { useState } from 'react';
+
+const destinos = [
+  {
+    id: "europa",
+    nombre: "Europa",
+    imagen: "/images/destino-paris.jpg",
+    descripcion:
+      "Sumérgete en un cuento de hadas entre castillos, calles adoquinadas y paisajes de ensueño. Vive la magia del romanticismo europeo en cada paso.",
+  },
+  {
+    id: "japon",
+    nombre: "Japón",
+    imagen: "/images/Japon.webp",
+    descripcion:
+      "Descubre la armonía entre tecnología y tradición, con templos milenarios, cerezos en flor y una cultura fascinante.",
+  },
+  {
+    id: "disneyland",
+    nombre: "Disneyland",
+    imagen: "/images/DISNEY.webp",
+    descripcion:
+      "Regresa a tu infancia con aventuras mágicas, castillos encantados y personajes que cobran vida en el lugar más feliz del mundo.",
+  },
+];
 
 export default function Home() {
+ 
+  const [showModal, setShowModal] = useState(false);
+  const [selectedDestino, setSelectedDestino] = useState(null);
+  const closeModal = () => setSelectedDestino(null);
+  
   return (
     
     <div className="pt-28 min-h-screen relative bg-white text-gray-800 overflow-hidden">
@@ -53,7 +83,7 @@ export default function Home() {
         {/* Imagen */}
         <div className="md:w-1/2">
           <img
-            src="/images/travel-hero-clean.jpg"
+            src="/images/Collage.webp"
             alt="Viajes por el mundo"
             className="w-full max-w-md mx-auto rounded-3xl shadow-xl"
           />
@@ -66,67 +96,80 @@ export default function Home() {
       <h3 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-12">
         Destinos destacados
       </h3>
-
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-    {/* Destino 1 */}
-      <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_0_10px_2px_#00fff7] transition-all duration-500">
-        {/* Imagen con efecto hover */}
-        <img
-          src="/images/destino-paris.jpg"
-          alt="Europa"
-            className="w-full h-56 object-cover transition duration-500 group-hover:scale-105"
-        />
-        {/* Overlay brillante */}
-        <div className="absolute inset-0 rounded-2xl pointer-events-none group-hover:bg-[radial-gradient(circle,_rgba(0,255,247,0.2)_0%,_transparent_70%)] transition duration-500"></div>
-          
-        {/* Contenido */}
-        <div className="p-6">
-          <h4 className="text-xl font-semibold text-gray-800 text-center dark:text-gray-200">EUROPA</h4>
-          <p className="text-gray-600 mt-2 text-justify dark:text-gray-300">
-            Pasea entre calles empedradas y atardeceres dorados, donde cada rincón guarda una historia de amor eterna.
-          </p>
-        </div>
+     
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {destinos.map((destino) => (
+          <div
+            key={destino.id}
+            className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_0_10px_2px_#00fff7] transition-all duration-500 cursor-pointer"
+            onClick={() => setSelectedDestino(destino)}
+          >
+            <img
+              src={destino.imagen}
+              alt={destino.nombre}
+              className="w-full h-56 object-cover transition duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 rounded-2xl pointer-events-none group-hover:bg-[radial-gradient(circle,_rgba(0,255,247,0.2)_0%,_transparent_70%)] transition duration-500"></div>
+            <div className="p-6">
+              <h4 className="text-xl font-semibold text-center text-gray-800 dark:text-gray-200">
+                {destino.nombre.toUpperCase()}
+              </h4>
+              <p className="text-gray-600 mt-2 text-justify dark:text-gray-300">
+                {destino.descripcion.substring(0, 60)}...
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
 
-    {/* Destino 2 */}
-    <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_0_10px_2px_#D29BFD] transition-all duration-500">
-      <img
-          src="/images/Japon.webp"
-          alt="JAPÓN"
-          className="w-full h-56 object-cover transition duration-500 group-hover:scale-105"
-        />
-        {/* Overlay brillante */}
-        <div className="absolute inset-0 rounded-2xl pointer-events-none group-hover:bg-[radial-gradient(circle,_rgba(210,155,253,0.2)_0%,_transparent_70%)] transition duration-500"></div>
-        
-        {/* Contenido */}
-        <div className="p-6">
-          <h4 className="text-xl font-semibold text-gray-800 text-center dark:text-gray-200">JAPÓN</h4>
-          <p className="text-gray-600 mt-2 text-justify dark:text-gray-300">
-            Entre cerezos en flor y templos milenarios, descubre una conexión única en un mundo de armonía y belleza.</p>
-        </div>
-      </div>
+      {/* Modal dinámico */}
+      {selectedDestino && (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 px-4">
+    <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl p-6 md:p-10 max-w-xl w-full relative animate-fade-in transition-all">
+      {/* Cerrar */}
+      <button
+        className="absolute top-4 right-5 text-gray-500 hover:text-red-500 text-2xl font-bold"
+        onClick={closeModal}
+        aria-label="Cerrar modal"
+      >
+        ×
+      </button>
 
-    {/* Destino 3 */}
-    <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_0_10px_2px_#FEFF66] transition-all duration-500">
+      {/* Imagen */}
       <img
-          src="/images/DISNEY.webp"
-          alt="DISNEY"
-        className="w-full h-56 object-cover transition duration-500 group-hover:scale-105"
-        />
-        {/* Overlay brillante */}
-        <div className="absolute inset-0 rounded-2xl pointer-events-none group-hover:bg-[radial-gradient(circle,_rgba(254,255,102,0.2)_0%,_transparent_70%)] transition duration-500"></div>
-        
-        <div className="p-6">
-          <h4 className="text-xl font-semibold text-gray-800 text-center dark:text-gray-200">DISNEYLAND</h4>
-          <p className="text-gray-600 mt-2 text-justify dark:text-gray-300">
-            Vivir su propio cuento de hadas, donde los sueños se hacen realidad y el amor tiene magia propia.</p>
-        </div>
+        src={selectedDestino.imagen}
+        alt={selectedDestino.nombre}
+        className="rounded-xl w-full h-48 object-cover mb-6 shadow-md"
+      />
+
+      {/* Título */}
+      <h3 className="text-2xl font-bold text-center text-gray-800 dark:text-white mb-3">
+        {selectedDestino.nombre}
+      </h3>
+
+      {/* Descripción */}
+      <p className="text-gray-600 dark:text-gray-300 text-center leading-relaxed mb-6">
+        {selectedDestino.descripcion}
+      </p>
+
+      {/* Acciones */}
+      <div className="flex justify-center gap-4">
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full transition font-semibold shadow-md">
+          Reservar ahora
+        </button>
+        <button className="border border-blue-600 text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-full transition font-semibold">
+          Ver más fotos
+        </button>
+      </div>
       </div>
     </div>
+    )}
+
     </section>  
 
         {/* Línea decorativa inferior */}
-        <div className="w-full h-[1px] bg-gray-200 dark:bg-gray-700" />
+    <div className="w-full h-[1px] bg-gray-200 dark:bg-gray-700" />
+
     <Servicios/>
     <TestimoniosSlider />
     <QuienesSomos />
