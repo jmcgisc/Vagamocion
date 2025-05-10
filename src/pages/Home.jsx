@@ -61,8 +61,9 @@ export default function Home() {
       </section>
 
     {/* Destinos Destacados */}
-    <section className="bg-gray-50 w-full px-8 md:px-20 py-16">
-      <h3 className="text-3xl font-bold text-center text-gray-800 mb-12">
+    <section id="destinos_destacados"
+    className="bg-gray-50 w-full px-8 md:px-20 py-16  dark:bg-gray-950">
+      <h3 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-12">
         Destinos destacados
       </h3>
 
@@ -79,9 +80,9 @@ export default function Home() {
         <div className="absolute inset-0 rounded-2xl pointer-events-none group-hover:bg-[radial-gradient(circle,_rgba(0,255,247,0.2)_0%,_transparent_70%)] transition duration-500"></div>
           
         {/* Contenido */}
-        <div className="p-6 bg-white">
-          <h4 className="text-xl font-semibold text-gray-800 text-center">EUROPA</h4>
-          <p className="text-gray-600 mt-2 text-center">
+        <div className="p-6">
+          <h4 className="text-xl font-semibold text-gray-800 text-center dark:text-gray-200">EUROPA</h4>
+          <p className="text-gray-600 mt-2 text-justify dark:text-gray-300">
             Pasea entre calles empedradas y atardeceres dorados, donde cada rincón guarda una historia de amor eterna.
           </p>
         </div>
@@ -92,15 +93,15 @@ export default function Home() {
       <img
           src="/images/Japon.webp"
           alt="JAPÓN"
-        className="w-full h-56 object-cover transition duration-500 group-hover:scale-105"
+          className="w-full h-56 object-cover transition duration-500 group-hover:scale-105"
         />
         {/* Overlay brillante */}
         <div className="absolute inset-0 rounded-2xl pointer-events-none group-hover:bg-[radial-gradient(circle,_rgba(210,155,253,0.2)_0%,_transparent_70%)] transition duration-500"></div>
         
         {/* Contenido */}
         <div className="p-6">
-          <h4 className="text-xl font-semibold text-gray-800 text-center">JAPÓN</h4>
-          <p className="text-gray-600 mt-2 text-center">
+          <h4 className="text-xl font-semibold text-gray-800 text-center dark:text-gray-200">JAPÓN</h4>
+          <p className="text-gray-600 mt-2 text-justify dark:text-gray-300">
             Entre cerezos en flor y templos milenarios, descubre una conexión única en un mundo de armonía y belleza.</p>
         </div>
       </div>
@@ -116,14 +117,16 @@ export default function Home() {
         <div className="absolute inset-0 rounded-2xl pointer-events-none group-hover:bg-[radial-gradient(circle,_rgba(254,255,102,0.2)_0%,_transparent_70%)] transition duration-500"></div>
         
         <div className="p-6">
-          <h4 className="text-xl font-semibold text-gray-800 text-center">DISNEYLAND</h4>
-          <p className="text-gray-600 mt-2 text-center">
+          <h4 className="text-xl font-semibold text-gray-800 text-center dark:text-gray-200">DISNEYLAND</h4>
+          <p className="text-gray-600 mt-2 text-justify dark:text-gray-300">
             Vivir su propio cuento de hadas, donde los sueños se hacen realidad y el amor tiene magia propia.</p>
         </div>
       </div>
     </div>
     </section>  
 
+        {/* Línea decorativa inferior */}
+        <div className="w-full h-[1px] bg-gray-200 dark:bg-gray-700" />
     <Servicios/>
     <TestimoniosSlider />
     <QuienesSomos />
