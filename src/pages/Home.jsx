@@ -68,49 +68,57 @@ export default function Home() {
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
     {/* Destino 1 */}
-    <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_0_30px_5px_#00fff7] transition-all duration-500">
-      {/* Imagen con efecto hover */}
-      <img
-        src="/images/destino-paris.jpg"
-        alt="Europa"
-        className="w-full h-56 object-cover transition duration-500 group-hover:scale-105"
-      />
-      
-      {/* Overlay brillante */}
-      <div className="absolute inset-0 rounded-2xl pointer-events-none group-hover:bg-[radial-gradient(circle,_rgba(0,255,247,0.2)_0%,_transparent_70%)] transition duration-500"></div>
-      
-      {/* Contenido */}
-      <div className="p-6 bg-white">
-        <h4 className="text-xl font-semibold text-gray-800">EUROPA</h4>
-        <p className="text-gray-600 mt-2">
-          Descubre la ciudad del amor con recorridos inolvidables.
-        </p>
+      <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_0_10px_2px_#00fff7] transition-all duration-500">
+        {/* Imagen con efecto hover */}
+        <img
+          src="/images/destino-paris.jpg"
+          alt="Europa"
+            className="w-full h-56 object-cover transition duration-500 group-hover:scale-105"
+        />
+        {/* Overlay brillante */}
+        <div className="absolute inset-0 rounded-2xl pointer-events-none group-hover:bg-[radial-gradient(circle,_rgba(0,255,247,0.2)_0%,_transparent_70%)] transition duration-500"></div>
+          
+        {/* Contenido */}
+        <div className="p-6 bg-white">
+          <h4 className="text-xl font-semibold text-gray-800 text-center">EUROPA</h4>
+          <p className="text-gray-600 mt-2 text-center">
+            Pasea entre calles empedradas y atardeceres dorados, donde cada rincón guarda una historia de amor eterna.
+          </p>
+        </div>
       </div>
-    </div>
 
     {/* Destino 2 */}
-      <div className="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
-        <img
-          src="/images/destino-bali.jpg"
-          alt="Japón"
-          className="w-full h-56 object-cover"
+    <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_0_10px_2px_#D29BFD] transition-all duration-500">
+      <img
+          src="/images/Japon.webp"
+          alt="JAPÓN"
+        className="w-full h-56 object-cover transition duration-500 group-hover:scale-105"
         />
+        {/* Overlay brillante */}
+        <div className="absolute inset-0 rounded-2xl pointer-events-none group-hover:bg-[radial-gradient(circle,_rgba(210,155,253,0.2)_0%,_transparent_70%)] transition duration-500"></div>
+        
+        {/* Contenido */}
         <div className="p-6">
-          <h4 className="text-xl font-semibold text-gray-800">Japón</h4>
-          <p className="text-gray-600 mt-2">Playas, templos y cultura exótica en un solo viaje.</p>
+          <h4 className="text-xl font-semibold text-gray-800 text-center">JAPÓN</h4>
+          <p className="text-gray-600 mt-2 text-center">
+            Entre cerezos en flor y templos milenarios, descubre una conexión única en un mundo de armonía y belleza.</p>
         </div>
       </div>
 
     {/* Destino 3 */}
-      <div className="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
-        <img
-          src="/images/destino-nueva-york.jpg"
-          alt="Nueva York"
-          className="w-full h-56 object-cover"
+    <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_0_10px_2px_#FEFF66] transition-all duration-500">
+      <img
+          src="/images/DISNEY.webp"
+          alt="DISNEY"
+        className="w-full h-56 object-cover transition duration-500 group-hover:scale-105"
         />
+        {/* Overlay brillante */}
+        <div className="absolute inset-0 rounded-2xl pointer-events-none group-hover:bg-[radial-gradient(circle,_rgba(254,255,102,0.2)_0%,_transparent_70%)] transition duration-500"></div>
+        
         <div className="p-6">
-          <h4 className="text-xl font-semibold text-gray-800">Nueva York</h4>
-          <p className="text-gray-600 mt-2">Vive la ciudad que nunca duerme como un verdadero neoyorquino.</p>
+          <h4 className="text-xl font-semibold text-gray-800 text-center">DISNEYLAND</h4>
+          <p className="text-gray-600 mt-2 text-center">
+            Vivir su propio cuento de hadas, donde los sueños se hacen realidad y el amor tiene magia propia.</p>
         </div>
       </div>
     </div>
