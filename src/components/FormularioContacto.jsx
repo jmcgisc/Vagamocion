@@ -131,9 +131,19 @@ export default function FormularioContacto() {
             {errores.fecha && <p className="text-red-600 text-sm">{errores.fecha}</p>}
 
             <input type="number" name="personas" placeholder="Cantidad de personas" value={form.personas} onChange={handleChange} required className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white" />
-            <input type="text" name="menores" placeholder="¿Viajan menores de edad?" value={form.menores} onChange={handleChange} required className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white" />
+            <select
+              name="menores"
+              value={form.menores}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white"
+            >
+              <option value="">¿Viajan menores de edad?</option>
+              <option value="Si">Si</option>
+              <option value="No">No</option>
+            </select>
             <input type="tel" name="telefono" placeholder="Teléfono" value={form.telefono} onChange={handleChange} required className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white" />
-            <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white" />
+            <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white" />
             <select
               name="presupuesto"
               value={form.presupuesto}
