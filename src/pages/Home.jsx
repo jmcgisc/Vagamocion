@@ -53,8 +53,7 @@ export default function Home() {
     
     <div className="pt-28 min-h-screen relative bg-white text-gray-800 overflow-hidden">
 
-    {/* Imagen de fondo con transparencia */}
-    <div className="absolute inset-0 z-0">
+    <div className="absolute inset-0 z-0 pointer-events-none">
       <img
         src="/images/fondo-viajes.jpg"
         alt="Fondo viajes"
@@ -69,7 +68,7 @@ export default function Home() {
     {/* Header */}
     <Hero /> 
 
-    <section className="flex flex-col-reverse md:flex-row items-center justify-between px-8 md:px-20 py-20 gap-12">
+    <section className="flex flex-col-reverse md:flex-row items-center justify-between px-8 md:px-20 py-20 gap-12 ">
         {/* Texto */}
         <div className="md:w-1/2 space-y-6 text-center md:text-left">
           <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
@@ -94,7 +93,7 @@ export default function Home() {
           <img
             src="/images/Collage.webp"
             alt="Viajes por el mundo"
-            className="w-full max-w-md mx-auto rounded-3xl shadow-xl"
+            className="w-full max-w-md mx-auto rounded-3xl shadow-xl transition duration-500 group-hover:scale-105"
           />
         </div>
       </section>
@@ -118,7 +117,7 @@ export default function Home() {
               alt={destino.nombre}
               className="w-full h-56 object-cover transition duration-500 group-hover:scale-105"
             />
-            <div className="absolute inset-0 rounded-2xl pointer-events-none group-hover:bg-[radial-gradient(circle,_rgba(0,255,247,0.2)_0%,_transparent_70%)] transition duration-500"></div>
+            <div className="rounded-2xl pointer-events-none group-hover:bg-[radial-gradient(circle,_rgba(0,255,247,0.2)_0%,_transparent_70%)] transition duration-500"></div>
             <div className="p-6">
               <h4 className="text-xl font-semibold text-center text-gray-800 dark:text-gray-200">
                 {destino.nombre.toUpperCase()}
