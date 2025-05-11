@@ -71,13 +71,13 @@ export default function Home() {
         "description": "Especialistas en viajes personalizados. Vuelos, hoteles, tours y más.",
         "address": {
           "@type": "PostalAddress",
-          "streetAddress": "Av. Principal 123",
+          "streetAddress": "Gemelos 42 depto 1 col prado churubusco",
           "addressLocality": "Ciudad de México",
           "addressRegion": "CDMX",
-          "postalCode": "01234",
+          "postalCode": "04230",
           "addressCountry": "MX"
         },
-        "telephone": "+52-55-1234-5678",
+        "telephone": "+52-55-1234-5678",w
         "openingHours": "Mo-Fr 09:00-18:00",
         "contactPoint": {
           "@type": "ContactPoint",
