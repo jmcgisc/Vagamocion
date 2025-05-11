@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta property="og:image" content="U%PUBLIC_URL%/logo.png" />
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="Vagamocion Travel Agencia de Viajes en la ciudad de México"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -24,7 +25,46 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Vagamocion Travel</title>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "TravelAgency",
+        "name": "Vagamocion Travel",
+        "url": "https://www.vagamociontravel.com",
+        "logo": "https://www.vagamociontravel.com/logo.png",
+        "image": "https://www.vagamociontravel.com/portada.jpg",
+        "description": "Agencia de viajes especializada en tours personalizados y paquetes vacacionales.",
+        "address": {
+          "@type": "CDMX",
+          "streetAddress": "Calle Ficticia 123",
+          "addressLocality": "Ciudad de México",
+          "addressRegion": "Provincia de México",
+          "postalCode": "06400",
+          "addressCountry": "ES"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+52-55-75-59-70-65",
+          "contactType": "Customer Service",
+          "areaServed": "ES",
+          "availableLanguage": "Spanish"
+        },
+        "openingHours": "Mo-Su 09:00-18:00",
+        "sameAs": [
+          "https://www.facebook.com/vagamocion_travel",
+          "https://www.instagram.com/vagamocion_travel",
+          "https://www.x.com/vagamocion_travel"
+        ],
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.5",
+          "reviewCount": "124"
+        }
+      }
+      </script>
+      
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

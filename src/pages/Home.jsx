@@ -13,6 +13,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import { Helmet } from "react-helmet";
 
 const destinos = [
   {
@@ -50,6 +51,45 @@ export default function Home() {
   const [mostrarGaleria, setMostrarGaleria] = useState(false);
   
   return (
+    <>
+    <Helmet>
+      <meta property="og:title" content="Contáctanos | Agencia de Viajes" />
+      <meta property="og:description" content="Planea tu viaje ideal con nosotros. Llena el formulario y te contactamos." />
+      <meta property="og:image" content="https://vagamociontravel.com/imagen-seo.jpg" />
+      <meta property="og:url" content="https://vagamociontravel.com/contacto" />
+      <meta property="og:type" content="website" />
+
+      <script type="application/ld+json">
+      {`
+      {
+        "@context": "https://schema.org",
+        "@type": "TravelAgency",
+        "name": "Agencia de Viajes Vagamocion Travel",
+        "url": "https://vagamociontravel.com",
+        "logo": "https://vagamociontravel.com/logo.png",
+        "image": "https://vagamociontravel.com/imagen.jpg",
+        "description": "Especialistas en viajes personalizados. Vuelos, hoteles, tours y más.",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Av. Principal 123",
+          "addressLocality": "Ciudad de México",
+          "addressRegion": "CDMX",
+          "postalCode": "01234",
+          "addressCountry": "MX"
+        },
+        "telephone": "+52-55-1234-5678",
+        "openingHours": "Mo-Fr 09:00-18:00",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+52-55-1234-5678",
+          "contactType": "Customer Service",
+          "areaServed": "MX",
+          "availableLanguage": ["Spanish", "English"]
+        }
+      }
+      `}
+      </script>
+    </Helmet>
     
     <div className="pt-28 min-h-screen relative bg-white text-gray-800 overflow-hidden">
 
@@ -93,7 +133,7 @@ export default function Home() {
           <img
             src="/images/Collage.webp"
             alt="Viajes por el mundo"
-            className="w-full max-w-md mx-auto rounded-3xl shadow-xl transition duration-500 group-hover:scale-105"
+            className="w-full max-w-md mx-auto rounded-3xl shadow-xl transition duration-500 notgroup-hover:scale-105"
           />
         </div>
       </section>
@@ -172,7 +212,7 @@ export default function Home() {
     )}
     {/* Galeria de Fotos */}
     {mostrarGaleria && selectedDestino && (
-  <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center px-4">
+    <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center px-4">
     <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl max-w-3xl w-full relative p-6">
       
       {/* Botón cerrar */}
@@ -189,16 +229,16 @@ export default function Home() {
       </h3>
 
       <Swiper
-  modules={[Navigation]}
-  navigation={{
-    nextEl: '.custom-next',
-    prevEl: '.custom-prev',
-  }}
-  loop={true}
-  spaceBetween={20}
-  slidesPerView={1}
-  className="w-full relative"
->
+        modules={[Navigation]}
+        navigation={{
+          nextEl: '.custom-next',
+          prevEl: '.custom-prev',
+        }}
+        loop={true}
+        spaceBetween={20}
+        slidesPerView={1}
+        className="w-full relative"
+      >
   {selectedDestino.galeria?.map((src, idx) => (
     <SwiperSlide key={idx}>
       <img
@@ -209,22 +249,22 @@ export default function Home() {
     </SwiperSlide>
   ))}
 
-  {/* Flechas personalizadas */}
-  <div className="custom-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 p-3 rounded-full shadow hover:bg-white dark:hover:bg-gray-700 cursor-pointer transition">
-    <svg className="w-6 h-6 text-gray-800 dark:text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-    </svg>
-  </div>
-
-  <div className="custom-next absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 p-3 rounded-full shadow hover:bg-white dark:hover:bg-gray-700 cursor-pointer transition">
-    <svg className="w-6 h-6 text-gray-800 dark:text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-    </svg>
-  </div>
-</Swiper>
+    {/* Flechas personalizadas */}
+    <div className="custom-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 p-3 rounded-full shadow hover:bg-white dark:hover:bg-gray-700 cursor-pointer transition">
+      <svg className="w-6 h-6 text-gray-800 dark:text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
     </div>
-  </div>
-)}
+
+    <div className="custom-next absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 p-3 rounded-full shadow hover:bg-white dark:hover:bg-gray-700 cursor-pointer transition">
+      <svg className="w-6 h-6 text-gray-800 dark:text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+  </Swiper>
+      </div>
+    </div>
+  )}
     </section>  
 
         {/* Línea decorativa inferior */}
@@ -251,5 +291,6 @@ export default function Home() {
 
     </div>
     
+    </>
   );
 }

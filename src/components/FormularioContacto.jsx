@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { Helmet } from "react-helmet";
 
 export default function FormularioContacto() {
   const [form, setForm] = useState({
@@ -79,6 +80,46 @@ export default function FormularioContacto() {
   };
 
   return (
+    <>
+    <Helmet>
+      <meta property="og:title" content="Contáctanos | Agencia de Viajes" />
+      <meta property="og:description" content="Planea tu viaje ideal con nosotros. Llena el formulario y te contactamos." />
+      <meta property="og:image" content="https://vagamociontravel.com/imagen-seo.jpg" />
+      <meta property="og:url" content="https://vagamociontravel.com/contacto" />
+      <meta property="og:type" content="website" />
+
+      <script type="application/ld+json">
+      {`
+      {
+        "@context": "https://schema.org",
+        "@type": "TravelAgency",
+        "name": "Agencia de Viajes Vagamocion Travel",
+        "url": "https://vagamociontravel.com",
+        "logo": "https://vagamociontravel.com/logo.png",
+        "image": "https://vagamociontravel.com/imagen.jpg",
+        "description": "Especialistas en viajes personalizados. Vuelos, hoteles, tours y más.",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Av. Principal 123",
+          "addressLocality": "Ciudad de México",
+          "addressRegion": "CDMX",
+          "postalCode": "01234",
+          "addressCountry": "MX"
+        },
+        "telephone": "+52-55-1234-5678",
+        "openingHours": "Mo-Fr 09:00-18:00",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+52-55-1234-5678",
+          "contactType": "Customer Service",
+          "areaServed": "MX",
+          "availableLanguage": ["Spanish", "English"]
+        }
+      }
+      `}
+      </script>
+    </Helmet>
+
     <section className="py-16 bg-white dark:bg-gray-900">
       <div className="max-w-2xl mx-auto px-6">
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-white">
@@ -140,7 +181,7 @@ export default function FormularioContacto() {
             >
               <option value="">¿Viajan menores de edad?</option>
               <option value="Si">Si</option>
-              <option value="No">No</option>
+              <option value="No">wNo</option>
             </select>
             <input type="tel" name="telefono" placeholder="Teléfono" value={form.telefono} onChange={handleChange} required className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white" />
             <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white" />
@@ -195,5 +236,6 @@ export default function FormularioContacto() {
         )}
       </div>
     </section>
+    </>
   );
 }
