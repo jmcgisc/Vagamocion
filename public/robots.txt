@@ -1,7 +1,10 @@
-# https://www.robotstxt.org/robotstxt.html
+# robots.txt para https://www.vagamociontravel.com
+# Más info: https://www.robotstxt.org/
+
 User-agent: *
 Disallow: /admin/
 Disallow: /private/
 Allow: /
 
-Sitemap: https://www.vagamociontravel.com/sitemap.xml
+# Sitemap XML
+Sitemap: https://www.vagamociontravel.com/sitemap.x

@@ -47,7 +47,7 @@ export default function RedesSociales() {
           <a href="https://www.instagram.com/vagamocion_travel/" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition">
             <FaInstagram />
           </a>
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition">
+          <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition">
             <FaX />
           </a>
           <a href="https://wa.me/525575597065" target="_blank" rel="noopener noreferrer" className="hover:text-green-500 transition">
