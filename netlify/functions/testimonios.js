@@ -3,10 +3,17 @@ const multiparty = require('multiparty');
 const fs = require('fs');
 const path = require('path');
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SECRET
-);
+const supabaseKey = process.env.SUPABASE_KEY;
+const supabaseUrl = process.env.SUPABASE_URL;
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error("supabaseUrl and supabaseKey are required.");
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+console.log("SUPABASE_URL:", process.env.SUPABASE_URL);
+console.log("SUPABASE_KEY:", process.env.SUPABASE_KEY ? "✔️ set" : "❌ not set");
 
 exports.handler = async function (event) {
   if (event.httpMethod === 'OPTIONS') {
