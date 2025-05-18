@@ -10,8 +10,9 @@ const Urban = lazy(() => import("./pages/Urban"));
 const Tropical = lazy(() => import("./pages/Tropical"));
 const Illustrated = lazy(() => import("./pages/Illustrated"));
 const Home = lazy(() => import("./pages/Home"));
-const Disclaimer = lazy(() => import("./components/Disclaimer"));
+const Disclaimer = lazy(() => import("./pages/Disclaimer"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const TestimoniosPage = lazy(() => import("./pages/TestimoniosPage"));
 
 const pageVariants = {
   initial: { opacity: 0, y: 20 },
@@ -55,6 +56,18 @@ export default function App() {
               <PageWrapper>
                 <Suspense fallback={<Spinner />}>
                   <Disclaimer />
+                </Suspense>
+              </PageWrapper>
+            }
+          />
+
+
+          <Route
+            path="/testimonios"
+            element={
+              <PageWrapper>
+                <Suspense fallback={<Spinner />}>
+                  <TestimoniosPage />
                 </Suspense>
               </PageWrapper>
             }

@@ -1,3 +1,8 @@
+import { useState } from "react";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 import Hero from "../components/Hero";
 import ExperienciasGrid from "../components/ExperienciasGrid";
 import MapaInteractivo from "../components/MapaInteractivo"; 
@@ -7,13 +12,10 @@ import FormularioContacto from "../components/FormularioContacto";
 import Servicios from "../components/Servicios";
 import WhatsAppFloat from "../components/WhatsAppFloat";
 import Footer from "../components/Footer";
-import QuienesSomos from "../components/QuienesSomos";
-import { useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
+import QuienesSomos from "../components/QuienesSomos"; 
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { Helmet } from "react-helmet";
+
 
 const destinos = [
   {
@@ -23,9 +25,12 @@ const destinos = [
     descripcion:
       "Sumérgete en un cuento de hadas entre castillos, calles adoquinadas y paisajes de ensueño. Vive la magia del romanticismo europeo en cada paso.",
     galeria: [
-        "/images/destino-paris.jpg",
-        "/images/Japon.webp",
-        "/images/destino-paris.jpg",
+        "/images/praga.webp",
+        "/images/brandeburgo.webp",
+        "/images/sagradaFamilia.webp",
+        "/images/santaSofia.webp",
+        "/images/stonehenge.webp",
+        "/images/TorreEiffel.webp",
       ],
     },
   {
@@ -34,14 +39,32 @@ const destinos = [
     imagen: "/images/Japon.webp",
     descripcion:
       "Descubre la armonía entre tecnología y tradición, con templos milenarios, cerezos en flor y una cultura fascinante.",
-  },
+      galeria: [
+        "/images/castilloOsaka.webp",
+        "/images/fushimiKyoto.webp",
+        "/images/himeji.webp",
+        "/images/pabellonOro.webp",
+        "/images/palacioImperial.webp",
+        "/images/palacioImperialTokio.webp",
+        "/images/sensoJiTokio.webp",
+        "/images/tokyoSkytree.webp"
+      ],
+    },
   {
     id: "disneyland",
     nombre: "Disneyland",
     imagen: "/images/DISNEY.webp",
     descripcion:
       "Regresa a tu infancia con aventuras mágicas, castillos encantados y personajes que cobran vida en el lugar más feliz del mundo.",
-  },
+      galeria: [
+        "/images/mickey-minnie.webp",
+        "/images/Mickey-and-Minnie.webp",
+        "/images/Disneyland.webp",
+        "/images/mainStreet.webp", 
+        "/images/mk-temprano.webp",
+        "/images/starwars.webp"
+      ],
+    },
 ];
 
 export default function Home() {
@@ -49,6 +72,7 @@ export default function Home() {
   const [selectedDestino, setSelectedDestino] = useState(null);
   const closeModal = () => setSelectedDestino(null);
   const [mostrarGaleria, setMostrarGaleria] = useState(false);
+  const [mostrarModal, setMostrarModal] = useState(false);
   
   return (
     <>
@@ -119,12 +143,34 @@ export default function Home() {
            Transformamos tus sueños en experiencias inolvidables. ¡Descubre el mundo con nosotros y vive momentos únicos que recordarás toda tu vida!
           </p>
           <div className="flex justify-center md:justify-start gap-4">
-            <button className="bg-blue-600 text-white px-6 py-3 rounded-full shadow hover:bg-blue-700">
-              Ver destinos
-            </button>
-            <button className="border border-blue-600 text-blue-600 px-6 py-3 rounded-full hover:bg-blue-50">
+
+            <Link to="/ofertas">
+              <button className="bg-blue-600 text-white px-6 py-3 rounded-full shadow hover:bg-blue-700">
+                Ver destinos
+              </button>
+            </Link>
+
+            <button className="border border-blue-600 text-blue-600 px-6 py-3 rounded-full hover:bg-blue-50"
+              onClick={() => setMostrarModal(true)}
+  >
               Planifica tu viaje
             </button>
+
+            {mostrarModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg max-w-2xl w-full relative overflow-y-auto max-h-[90vh]">
+                <button
+                  onClick={() => setMostrarModal(false)}
+                  className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 dark:hover:text-white text-xl"
+                >
+                  ✕
+                </button>
+
+            <FormularioContacto />
+          </div>
+        </div>
+      )}
+
           </div>
         </div>
 
@@ -239,46 +285,48 @@ export default function Home() {
         slidesPerView={1}
         className="w-full relative"
       >
-  {selectedDestino.galeria?.map((src, idx) => (
-    <SwiperSlide key={idx}>
-      <img
-        src={src}
-        alt={`Foto ${idx + 1} de ${selectedDestino.nombre}`}
-        className="w-full h-96 object-cover rounded-xl"
-      />
-    </SwiperSlide>
-  ))}
+      {selectedDestino.galeria?.map((src, idx) => (
+        <SwiperSlide key={idx}>
+          <img
+            src={src}
+            alt={`Foto ${idx + 1} de ${selectedDestino.nombre}`}
+            className="w-full h-96 object-cover rounded-xl"
+          />
+        </SwiperSlide>
+      ))}
 
-    {/* Flechas personalizadas */}
-    <div className="custom-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 p-3 rounded-full shadow hover:bg-white dark:hover:bg-gray-700 cursor-pointer transition">
-      <svg className="w-6 h-6 text-gray-800 dark:text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-      </svg>
-    </div>
-
-    <div className="custom-next absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 p-3 rounded-full shadow hover:bg-white dark:hover:bg-gray-700 cursor-pointer transition">
-      <svg className="w-6 h-6 text-gray-800 dark:text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-      </svg>
-    </div>
-  </Swiper>
+      {/* Flechas personalizadas */}
+      <div className="custom-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 p-3 rounded-full shadow hover:bg-white dark:hover:bg-gray-700 cursor-pointer transition">
+        <svg className="w-6 h-6 text-gray-800 dark:text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
       </div>
-    </div>
-  )}
-    </section>  
 
-        {/* Línea decorativa inferior */}
-    <div className="w-full h-[1px] bg-gray-200 dark:bg-gray-700" />
+      <div className="custom-next absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 dark:bg-gray-800/80 p-3 rounded-full shadow hover:bg-white dark:hover:bg-gray-700 cursor-pointer transition">
+        <svg className="w-6 h-6 text-gray-800 dark:text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
 
-    <Servicios/>
-    <TestimoniosSlider />
-    <QuienesSomos />
-    <CtaViaje />
+      </Swiper>
+        </div>
+      </div>
+      )}
+      </section>  
 
-    <ExperienciasGrid />
+      {/* Línea decorativa inferior */}
+      <div className="w-full h-[1px] bg-gray-200 dark:bg-gray-700" />
+
+      <Servicios/>
+      <TestimoniosSlider />
+      <CtaViaje />
+      <ExperienciasGrid />
+     
       <section id="mapa" className=" dark:bg-gray-900"> 
           <MapaInteractivo /> 
       </section>
+
+      <QuienesSomos />
 
       <section id="contacto" className="py-16 bg-white dark:bg-gray-950">
         <div className="container mx-auto px-4">

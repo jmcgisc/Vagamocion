@@ -7,7 +7,7 @@ export default function QuienesSomos() {
           {/* Imagen ilustrativa */}
           <div className="rounded-xl overflow-hidden shadow-lg">
             <img 
-              src="/images/team-travel.jpg" 
+              src="/images/quienes_somos.webp" 
               alt="Equipo Vagamocion" 
               className="w-full h-auto object-cover"
             />

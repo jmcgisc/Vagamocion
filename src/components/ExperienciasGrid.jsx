@@ -3,19 +3,19 @@ const tours = [
       id: 1,
       titulo: "Aventura en Machu Picchu",
       descripcion: "Explora las ruinas incas con un guía local.",
-      imagen: "/images/machu.jpg",
+      imagen: "/images/machuPichu.jpg",
     },
     {
       id: 2,
       titulo: "Safari en Sudáfrica",
       descripcion: "Observa la vida salvaje en su hábitat natural.",
-      imagen: "/images/safari.jpg",
+      imagen: "/images/Noruega.jpg",
     },
     {
       id: 3,
       titulo: "Navegación por los Fiordos Noruegos",
       descripcion: "Viaje escénico entre montañas y agua.",
-      imagen: "/images/fiordos.jpg",
+      imagen: "/images/SafariSudafrica.jpeg",
     },
   ];
   

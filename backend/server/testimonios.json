@@ -1,0 +1,57 @@
+[
+  {
+    "nombre": "jose",
+    "texto": "prueba",
+    "servicio": "cancun",
+    "estrellas": 4,
+    "fecha": "2025-05-15T15:05:56.843Z",
+    "imagen": "/uploads/user2.jpg"
+  },
+  {
+    "nombre": "PRUEBA",
+    "texto": "PRUEBA IMAGEN",
+    "servicio": "PRUEBA",
+    "estrellas": 4,
+    "fecha": "2025-05-15T14:57:24.313Z",
+    "imagen": "/uploads/user2.jpg"
+  },
+  {
+    "nombre": "prueba imagen",
+    "texto": "prueba imagen ",
+    "servicio": "prueba imagen",
+    "estrellas": 2,
+    "fecha": "2025-05-15T07:29:38.901Z",
+    "imagen": null
+  },
+  {
+    "nombre": "pedro",
+    "texto": "prueba 5",
+    "servicio": "todo",
+    "estrellas": 1,
+    "fecha": "2025-05-15T06:24:39.207Z",
+    "imagen": "/uploads/1747290279197.png"
+  },
+  {
+    "nombre": "carreiro",
+    "texto": "prueba 3",
+    "servicio": "nada",
+    "estrellas": 5,
+    "fecha": "2025-05-15T06:22:21.628Z",
+    "imagen": "/uploads/1747290141623.jpg"
+  },
+  {
+    "nombre": "jose m",
+    "texto": "prueba 2 ",
+    "servicio": "web",
+    "estrellas": 4,
+    "fecha": "2025-05-15T06:21:20.212Z",
+    "imagen": "/uploads/1747290080093.webp"
+  },
+  {
+    "nombre": "jose",
+    "texto": "prueba",
+    "servicio": "visado",
+    "estrellas": 4,
+    "fecha": "2025-05-15T04:18:47.288Z"
+  }
+]

@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useSwipeable } from "react-swipeable";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
+import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 
 export default function TestimoniosSlider() {
   const [testimonios, setTestimonios] = useState([]);
@@ -9,8 +11,7 @@ export default function TestimoniosSlider() {
   const timeoutRef = useRef(null);
 
   useEffect(() => {
-    // Cargar testimonios desde el JSON
-    fetch("/testimonios.json")
+    fetch("http://localhost:8080/api/testimonios")
       .then((res) => res.json())
       .then(setTestimonios)
       .catch((err) => console.error("Error cargando testimonios:", err));
@@ -32,11 +33,10 @@ export default function TestimoniosSlider() {
     trackMouse: true,
   });
 
-  if (testimonios.length === 0) {
+  if (!Array.isArray(testimonios) || testimonios.length === 0) {
     return <p className="text-center py-10">Cargando testimonios...</p>;
   }
 
-  // Funciones de cambio de testimonios
   const goToPrevious = () => setCurrent((prev) => (prev - 1 + testimonios.length) % testimonios.length);
   const goToNext = () => setCurrent((prev) => (prev + 1) % testimonios.length);
 
@@ -50,7 +50,6 @@ export default function TestimoniosSlider() {
         {...handlers}
         className="relative max-w-3xl mx-auto min-h-[380px] sm:min-h-[400px] transition-all"
       >
-        {/* Cards de Testimonios */}
         {testimonios.map((t, index) => (
           <div
             key={index}
@@ -61,29 +60,45 @@ export default function TestimoniosSlider() {
             }`}
           >
             <div className="bg-white border border-gray-100 shadow-xl rounded-3xl p-6 sm:p-10 h-full flex flex-col items-center justify-center text-left">
-              <img
-                src={t.imagen}
-                alt={t.nombre}
-                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover mb-6 border-4 border-blue-500 shadow"
-              />
+              <p className="text-lg sm:text-xl text-gray-700 italic relative leading-relaxed">
+                <span className="line-clamp-4 py-4">{t.nombre}</span>
+              </p>
+              
+            <img
+              src={`http://localhost:8080${t.imagen || '/uploads/default-avatar.png'}`}
+              onError={(e) => e.target.src = 'http://localhost:8080/uploads/default-avatar.png'}
+              alt={t.nombre}
+              className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover mb-6 border-4 border-blue-500 shadow"
+            />
+
               <p className="text-lg sm:text-xl text-gray-700 italic relative leading-relaxed">
                 <span className="text-4xl sm:text-5xl text-blue-400 absolute top-[-10px] left-[-20px]">
                   “
                 </span>
-                {/* Limitar el número de líneas de texto */}
                 <span className="line-clamp-4">{t.texto}</span>
                 <span className="text-4xl sm:text-5xl text-blue-400 absolute bottom-[-20px] right-[-20px]">
                   ”
                 </span>
               </p>
+
               <p className="mt-6 text-lg font-semibold text-primary">{t.nombre}</p>
               <p className="text-sm text-gray-500">{new Date(t.fecha).toLocaleDateString()}</p>
+
+              {/* Estrellas */}
+              <div className="flex justify-center mt-2 space-x-1">
+                {[...Array(5)].map((_, i) => (
+                  <FontAwesomeIcon
+                    key={i}
+                    icon={i < t.estrellas ? faStarSolid : faStarRegular}
+                    className="text-yellow-400"
+                  />
+                ))}
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Botón anterior fuera de las cards (más cerca y ajustado a móvil) */}
       <button
         onClick={goToPrevious}
         className="absolute left-4 sm:left-6 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 hover:bg-blue-100 text-gray-700 p-3 rounded-full shadow-lg transition hidden md:block"
@@ -92,7 +107,6 @@ export default function TestimoniosSlider() {
         <FontAwesomeIcon icon={faChevronLeft} className="text-xl" />
       </button>
 
-      {/* Botón siguiente fuera de las cards (más cerca y ajustado a móvil) */}
       <button
         onClick={goToNext}
         className="absolute right-4 sm:right-6 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 hover:bg-blue-100 text-gray-700 p-3 rounded-full shadow-lg transition hidden md:block"
@@ -101,7 +115,6 @@ export default function TestimoniosSlider() {
         <FontAwesomeIcon icon={faChevronRight} className="text-xl" />
       </button>
 
-      {/* Dots indicadores solo para móviles */}
       <div className="flex justify-center mt-10 gap-3 md:hidden">
         {testimonios.map((_, index) => (
           <button
