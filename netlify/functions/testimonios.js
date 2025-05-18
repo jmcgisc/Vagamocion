@@ -23,6 +23,13 @@ exports.handler = async function (event) {
     };
   }
 
+  if (event.httpMethod === 'GET') {
+    return {
+      statusCode: 200,
+      body: 'Función activa. Usa POST para enviar testimonios.',
+    };
+  }
+
   try {
     const data = JSON.parse(event.body);
     const { nombre, texto, servicio, estrellas } = data;
