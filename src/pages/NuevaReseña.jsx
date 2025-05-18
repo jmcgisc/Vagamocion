@@ -7,6 +7,7 @@ export default function NuevaReseña({ onPublicado }) {
   const [comentario, setComentario] = useState("");
   const [servicio, setServicio] = useState("");
   const [estrellas, setEstrellas] = useState(0);
+  const [imagen, setImagen] = useState(null);
   const [mensaje, setMensaje] = useState("");
 
   const handleSubmit = async (e) => {
@@ -17,22 +18,28 @@ export default function NuevaReseña({ onPublicado }) {
       return;
     }
 
-    const nuevoTestimonio = {
-      nombre,
-      texto: comentario,
-      servicio,
-      estrellas
-    };
+    const formData = new FormData();
+    formData.append("nombre", nombre);
+    formData.append("texto", comentario);
+    formData.append("servicio", servicio);
+    formData.append("estrellas", estrellas);
+    if (imagen) formData.append("imagen", imagen);
 
     try {
-            //await axios.post("http://localhost:8080/api/testimonios", formData);
-      await axios.post("/.netlify/functions/testimonios", nuevoTestimonio);
+      const res = await axios.post("/.netlify/functions/testimonios", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
       setMensaje("¡Gracias por tu reseña!");
       setNombre("");
       setComentario("");
       setServicio("");
       setEstrellas(0);
+      setImagen(null);
       if (onPublicado) onPublicado();
+
       setTimeout(() => setMensaje(""), 3000);
     } catch (err) {
       console.error("Error enviando reseña:", err);
@@ -43,19 +50,23 @@ export default function NuevaReseña({ onPublicado }) {
   return (
     <>
       <Hero className="sticky top-0" />
-      <form onSubmit={handleSubmit} className="pt-40 max-w-xl mx-auto p-2 bg-white shadow-md">
-        <h2 className="text-4xl font-bold mb-4 text-center py-1">¿Cómo fue tu experiencia con </h2>
-        <h2 className="text-4xl font-bold mb-4 text-center py-1 text-primary"> Vagamocion Travel?</h2>
+      <form
+        onSubmit={handleSubmit}
+        className="pt-40 max-w-xl mx-auto p-4 bg-white shadow-md"
+        encType="multipart/form-data"
+      >
+        <h2 className="text-4xl font-bold mb-4 text-center">¿Cómo fue tu experiencia con</h2>
+        <h2 className="text-4xl font-bold mb-4 text-center text-primary">Vagamocion Travel?</h2>
 
         <label className="block mb-2 font-medium py-4">¡Calificanos con estrellas!</label>
         <span className="text-2xl font-semibold mb-6 text-center py-1 text-secondary">
           Si tuviste una gran experiencia, califica con 5 estrellas ⭐️
         </span>
-        <div className="flex gap-2 mb-4">
+        <div className="flex gap-2 mb-4 justify-center">
           {[1, 2, 3, 4, 5].map((n) => (
             <span
               key={n}
-              className={`cursor-pointer text-2xl ${estrellas >= n ? "text-yellow-400" : "text-gray-300"}`}
+              className={`cursor-pointer text-3xl ${estrellas >= n ? "text-yellow-400" : "text-gray-300"}`}
               onClick={() => setEstrellas(n)}
             >
               ★
@@ -90,18 +101,17 @@ export default function NuevaReseña({ onPublicado }) {
           onChange={(e) => setComentario(e.target.value)}
         />
 
-        {/* Puedes dejar el input de imagen pero no se envía aún */}
         <label className="block mb-2 font-medium">Subir imagen (opcional)</label>
         <input
           type="file"
           accept="image/*"
           className="mb-4"
-          disabled
+          onChange={(e) => setImagen(e.target.files[0])}
         />
 
         <button
           type="submit"
-          className="w-full bg-primary hover:bg-secondary text-white py-3 px-4 full-rounded transition"
+          className="w-full bg-primary hover:bg-secondary text-white py-3 px-4 rounded transition"
         >
           Publicar reseña
         </button>
