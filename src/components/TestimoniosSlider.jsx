@@ -10,13 +10,23 @@ export default function TestimoniosSlider() {
   const [current, setCurrent] = useState(0);
   const timeoutRef = useRef(null);
 
-  useEffect(() => {
-    fetch("http://localhost:8080/api/testimonios")
-      .then((res) => res.json())
-      .then(setTestimonios)
-      .catch((err) => console.error("Error cargando testimonios:", err));
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://localhost:8080/api/testimonios")
+  //     .then((res) => res.json())
+  //     .then(setTestimonios)
+  //     .catch((err) => console.error("Error cargando testimonios:", err));
+  // }, []);
 
+
+  useEffect(() => {
+    fetch('/api/get-testimonios')
+      .then((res) => res.json())
+      .then((data) => {
+        setTestimonios(data);
+      })
+      .catch((err) => console.error('Error al obtener testimonios:', err));
+  }, []);
+  
   useEffect(() => {
     if (testimonios.length > 0) {
       timeoutRef.current = setTimeout(() => {

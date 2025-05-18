@@ -25,7 +25,8 @@ export default function NuevaReseña({ onPublicado }) {
     if (imagen) formData.append("imagen", imagen);
 
     try {
-      await axios.post("http://localhost:8080/api/testimonios", formData);
+      //await axios.post("http://localhost:8080/api/testimonios", formData);
+      await axios.post("/.netlify/functions/testimonios", formData);
       setMensaje("¡Gracias por tu reseña!");
       setNombre("");
       setComentario("");

@@ -7,7 +7,9 @@ export default function TestimoniosPage() {
 
   const cargarTestimonios = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/testimonios");
+    //  const res = await fetch("http://localhost:8080/api/testimonios");
+      const res = await fetch("/.netlify/functions/testimonios");
+
       const data = await res.json();
       setTestimonios(data.reverse());
     } catch (err) {
