@@ -40,6 +40,7 @@ exports.handler = async function (event) {
         body: JSON.stringify({ error: 'Faltan campos obligatorios' }),
       };
     }
+    console.log("Datos recibidos:", { nombre, texto, servicio, estrellas });
 
     const { error: dbError } = await supabase.from('testimonios').insert([
       {
@@ -50,6 +51,8 @@ exports.handler = async function (event) {
         fecha: new Date().toISOString(),
       },
     ]);
+    console.log("Resultado Supabase:", dbError);
+
 
     if (dbError) {
       return {
