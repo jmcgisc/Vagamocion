@@ -26,6 +26,13 @@ exports.handler = async function (event) {
     };
   }
 
+  if (event.httpMethod === 'GET') {
+    return {
+      statusCode: 200,
+      body: 'Función activa. Usa POST para enviar testimonios.',
+    };
+  }
+
   if (event.httpMethod === 'POST') {
     return new Promise((resolve, reject) => {
       const form = new multiparty.Form();
