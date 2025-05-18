@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
+import axios from "axios";
+
 
 export default function TestimoniosSlider() {
   const [testimonios, setTestimonios] = useState([]);
@@ -19,14 +21,18 @@ export default function TestimoniosSlider() {
 
 
   useEffect(() => {
-    fetch('/api/get-testimonios')
-      .then((res) => res.json())
-      .then((data) => {
-        setTestimonios(data);
-      })
-      .catch((err) => console.error('Error al obtener testimonios:', err));
+    const fetchTestimonios = async () => {
+      try {
+        const response = await axios.get("/.netlify/functions/testimonios");
+        setTestimonios(response.data);
+      } catch (error) {
+        console.error("Error al obtener testimonios:", error);
+      }
+    };
+
+    fetchTestimonios();
   }, []);
-  
+
   useEffect(() => {
     if (testimonios.length > 0) {
       timeoutRef.current = setTimeout(() => {
@@ -74,12 +80,12 @@ export default function TestimoniosSlider() {
                 <span className="line-clamp-4 py-4">{t.nombre}</span>
               </p>
               
-            <img
-              src={`http://localhost:8080${t.imagen || '/uploads/default-avatar.png'}`}
-              onError={(e) => e.target.src = 'http://localhost:8080/uploads/default-avatar.png'}
-              alt={t.nombre}
-              className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover mb-6 border-4 border-blue-500 shadow"
-            />
+              <img
+                src={t.imagen_url || "/default-avatar.png"}
+                onError={(e) => (e.target.src = "/default-avatar.png")}
+                alt={t.nombre}
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover mb-6 border-4 border-blue-500 shadow"
+              />
 
               <p className="text-lg sm:text-xl text-gray-700 italic relative leading-relaxed">
                 <span className="text-4xl sm:text-5xl text-blue-400 absolute top-[-10px] left-[-20px]">
