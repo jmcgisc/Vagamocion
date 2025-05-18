@@ -21,7 +21,7 @@ exports.handler = async function (event) {
       statusCode: 405,
       body: JSON.stringify({ error: 'Método no permitido' }),
     };
-  }
+  } 
 
   if (event.httpMethod === 'GET') {
     return {
