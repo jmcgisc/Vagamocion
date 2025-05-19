@@ -38,7 +38,7 @@ const destinos = [
   {
     id: "japon",
     nombre: "Japón",
-    imagen: "/images/portadaJapon",
+    imagen: "/images/portadaJapon.jpeg",
     descripcion:
       "Descubre la armonía entre tecnología y tradición, con templos milenarios, cerezos en flor y una cultura fascinante.",
       galeria: [
