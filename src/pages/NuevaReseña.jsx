@@ -8,37 +8,48 @@ export default function NuevaReseña({ onPublicado }) {
   const [servicio, setServicio] = useState("");
   const [estrellas, setEstrellas] = useState(0);
   const [mensaje, setMensaje] = useState("");
+  const [imagen, setImagen] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!nombre || !comentario || !servicio || estrellas === 0) {
-      alert("Por favor, completa todos los campos requeridos.");
-      return;
-    }
-
-    const nuevoTestimonio = {
-      nombre,
-      texto: comentario,
-      servicio,
-      estrellas
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+    
+      if (!nombre || !comentario || !servicio || estrellas === 0) {
+        alert("Por favor, completa todos los campos requeridos.");
+        return;
+      }
+    
+      const formData = new FormData();
+      formData.append("nombre", nombre);
+      formData.append("texto", comentario);
+      formData.append("servicio", servicio);
+      formData.append("estrellas", estrellas);
+    
+      if (imagen) {
+        formData.append("imagen", imagen);
+      }
+    
+      try {
+        await axios.post("/.netlify/functions/testimonios", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        setMensaje("¡Gracias por tu reseña!");
+        setNombre("");
+        setComentario("");
+        setServicio("");
+        setEstrellas(0);
+        setImagen(null); // Reset imagen
+        if (onPublicado) onPublicado();
+        setTimeout(() => setMensaje(""), 3000);
+      } catch (err) {
+        console.error("Error enviando reseña:", err);
+        setMensaje("Ocurrió un error. Intenta de nuevo.");
+      }
     };
-
-    try {
-            //await axios.post("http://localhost:8080/api/testimonios", formData);
-      await axios.post("/.netlify/functions/testimonios", nuevoTestimonio);
-      setMensaje("¡Gracias por tu reseña!");
-      setNombre("");
-      setComentario("");
-      setServicio("");
-      setEstrellas(0);
-      if (onPublicado) onPublicado();
-      setTimeout(() => setMensaje(""), 3000);
-    } catch (err) {
-      console.error("Error enviando reseña:", err);
-      setMensaje("Ocurrió un error. Intenta de nuevo.");
-    }
-  };
 
   return (
     <>
@@ -90,14 +101,13 @@ export default function NuevaReseña({ onPublicado }) {
           onChange={(e) => setComentario(e.target.value)}
         />
 
-        {/* Puedes dejar el input de imagen pero no se envía aún */}
         <label className="block mb-2 font-medium">Subir imagen (opcional)</label>
         <input
-          type="file"
-          accept="image/*"
-          className="mb-4"
-          disabled
-        />
+            type="file"
+            accept="image/*"
+            className="mb-4"
+            onChange={(e) => setImagen(e.target.files[0])}
+          />
 
         <button
           type="submit"
