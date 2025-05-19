@@ -10,9 +10,6 @@ export default function NuevaReseña({ onPublicado }) {
   const [mensaje, setMensaje] = useState("");
   const [imagen, setImagen] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
     const handleSubmit = async (e) => {
       e.preventDefault();
     
