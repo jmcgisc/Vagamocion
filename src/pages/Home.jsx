@@ -37,7 +37,7 @@ const destinos = [
   {
     id: "japon",
     nombre: "Japón",
-    imagen: "/images/portadaJapon",
+    imagen: "/images/portadaJapon.jpeg",
     descripcion:
       "Descubre la armonía entre tecnología y tradición, con templos milenarios, cerezos en flor y una cultura fascinante.",
       galeria: [
@@ -55,7 +55,7 @@ const destinos = [
   {
     id: "disneyland",
     nombre: "Disneyland",
-    imagen: "/images/portadaDisney.webp",
+    imagen: "/images/portadaDisney.jpeg",
     descripcion:
       "Regresa a tu infancia con aventuras mágicas, castillos encantados y personajes que cobran vida en el lugar más feliz del mundo.",
       galeria: [
