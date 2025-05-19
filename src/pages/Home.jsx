@@ -323,7 +323,6 @@ export default function Home() {
       <div className="w-full h-[1px] bg-gray-200 dark:bg-gray-700" />
 
       <Servicios/>
-      <TestimoniosSlider />
       <CtaViaje />
       <ExperienciasGrid />
      
@@ -331,6 +330,7 @@ export default function Home() {
           <MapaInteractivo /> 
       </section>
 
+      <TestimoniosSlider />
       <QuienesSomos />
 
       <section id="contacto" className="py-16 bg-white dark:bg-gray-950">

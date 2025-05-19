@@ -25,7 +25,7 @@ export default function QuienesSomos() {
               Nuestro objetivo es conectar personas con destinos inolvidables, combinando tecnología, asesoría profesional y una atención cercana que convierte cada viaje en una historia para recordar.
             </p>
             <a 
-              href="#contacto"
+              href="#testimonios"
               className="inline-block bg-secondary text-white px-6 py-3 rounded-full font-medium shadow hover:bg-aqua transition"
             >
               Conoce más
