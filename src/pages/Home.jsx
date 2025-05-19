@@ -21,22 +21,24 @@ const destinos = [
   {
     id: "europa",
     nombre: "Europa",
-    imagen: "/images/destino-paris.jpg",
+    imagen: "/images/portadaEuropa.jpeg",
     descripcion:
       "Sumérgete en un cuento de hadas entre castillos, calles adoquinadas y paisajes de ensueño. Vive la magia del romanticismo europeo en cada paso.",
     galeria: [
         "/images/praga.webp",
+        "images/destino-paris.jpg",
         "/images/brandeburgo.webp",
         "/images/sagradaFamilia.webp",
         "/images/santaSofia.webp",
         "/images/stonehenge.webp",
         "/images/TorreEiffel.webp",
+        
       ],
     },
   {
     id: "japon",
     nombre: "Japón",
-    imagen: "/images/Japon.webp",
+    imagen: "/images/portadaJapon",
     descripcion:
       "Descubre la armonía entre tecnología y tradición, con templos milenarios, cerezos en flor y una cultura fascinante.",
       galeria: [
@@ -47,13 +49,14 @@ const destinos = [
         "/images/palacioImperial.webp",
         "/images/palacioImperialTokio.webp",
         "/images/sensoJiTokio.webp",
-        "/images/tokyoSkytree.webp"
+        "/images/tokyoSkytree.webp",
+        "/images/Japon.webp"
       ],
     },
   {
     id: "disneyland",
     nombre: "Disneyland",
-    imagen: "/images/DISNEY.webp",
+    imagen: "/images/portadaDisney.jpeg",
     descripcion:
       "Regresa a tu infancia con aventuras mágicas, castillos encantados y personajes que cobran vida en el lugar más feliz del mundo.",
       galeria: [
@@ -62,7 +65,8 @@ const destinos = [
         "/images/Disneyland.webp",
         "/images/mainStreet.webp", 
         "/images/mk-temprano.webp",
-        "/images/starwars.webp"
+        "/images/starwars.webp",
+        "/images/DISNEY.webp",
       ],
     },
 ];
