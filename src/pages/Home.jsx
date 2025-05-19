@@ -12,9 +12,7 @@ import FormularioContacto from "../components/FormularioContacto";
 import Servicios from "../components/Servicios";
 import WhatsAppFloat from "../components/WhatsAppFloat";
 import Footer from "../components/Footer";
-import QuienesSomos from "../components/QuienesSomos"; import {
-  FaInstagram
-} from 'react-icons/fa'; 
+import QuienesSomos from "../components/QuienesSomos"; 
 import 'swiper/css';
 import 'swiper/css/navigation';
 
@@ -248,15 +246,11 @@ export default function Home() {
       </p> 
       {/* Acciones */}
       <div className="flex justify-center gap-4">
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full transition font-semibold shadow-md"
-        onClick={"https://www.instagram.com/vagamocion_travel/"} >
-         
+      <a href="https://www.instagram.com/vagamocion_travel" target="_blank" rel="noopener noreferrer">
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full transition font-semibold shadow-md">
           Reservar ahora
-
-          <a href="https://www.instagram.com/vagamocion_travel/" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition">
-            <FaInstagram />
-          </a>
         </button>
+      </a>
         <button
           onClick={() => setMostrarGaleria(true)}
           className="border border-blue-600 text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-full transition font-semibold"
