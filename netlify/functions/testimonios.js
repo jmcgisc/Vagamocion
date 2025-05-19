@@ -4,7 +4,8 @@ const fs = require('fs');
 const path = require('path');
 
 const supabaseKey = process.env.SUPABASE_KEY;
-const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseUrl = process.env.SUPABASE_URL; 
+
 
 if (!supabaseUrl || !supabaseKey) {
   throw new Error("supabaseUrl and supabaseKey are required.");
@@ -82,7 +83,7 @@ exports.handler = async function (event) {
               cacheControl: '3600',
               upsert: false,
             });
-
+        
           if (error) {
             console.error('Error subiendo imagen:', error);
             return resolve({
@@ -90,13 +91,17 @@ exports.handler = async function (event) {
               body: JSON.stringify({ error: 'Error subiendo imagen' }),
             });
           }
-
+        
           const { data: publicUrlData } = supabase.storage
             .from('testimonios')
             .getPublicUrl(nombreArchivo);
-
+        
           imagen_url = publicUrlData.publicUrl;
-        }
+        }else {
+        // Imagen por defecto si no se sube ninguna
+        imagen_url = "https://dfhulxkgsfhjgoqlyolv.supabase.co/storage/v1/object/public/testimonios//user1.jpg";
+       }
+      
 
         const { error: dbError } = await supabase.from('testimonios').insert([
           {
