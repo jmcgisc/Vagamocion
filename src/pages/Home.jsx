@@ -248,7 +248,9 @@ export default function Home() {
       </p> 
       {/* Acciones */}
       <div className="flex justify-center gap-4">
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full transition font-semibold shadow-md">
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full transition font-semibold shadow-md"
+        onClick={"https://www.instagram.com/vagamocion_travel/"} >
+         
           Reservar ahora
 
           <a href="https://www.instagram.com/vagamocion_travel/" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition">
