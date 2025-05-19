@@ -39,7 +39,7 @@ export default function NuevaReseña({ onPublicado }) {
         setComentario("");
         setServicio("");
         setEstrellas(0);
-        setImagen(null); // Reset imagen
+        setImagen(null); 
         if (onPublicado) onPublicado();
         setTimeout(() => setMensaje(""), 3000);
       } catch (err) {

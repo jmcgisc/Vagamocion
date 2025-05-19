@@ -2,9 +2,10 @@ const { createClient } = require('@supabase/supabase-js');
 const multiparty = require('multiparty');
 const fs = require('fs');
 const path = require('path');
+const { Readable } = require('stream');
 
 const supabaseKey = process.env.SUPABASE_KEY;
-const supabaseUrl = process.env.SUPABASE_URL; 
+const supabaseUrl = process.env.SUPABASE_URL;
 
 if (!supabaseUrl || !supabaseKey) {
   throw new Error("supabaseUrl and supabaseKey are required.");
@@ -23,7 +24,6 @@ exports.handler = async function (event) {
     };
   }
 
-  // ✅ NUEVO: Soporte para GET
   if (event.httpMethod === 'GET') {
     const { data, error } = await supabase
       .from('testimonios')
@@ -48,13 +48,27 @@ exports.handler = async function (event) {
   }
 
   if (event.httpMethod === 'POST') {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const form = new multiparty.Form();
 
-      form.parse(event, async (err, fields, files) => {
+      // Simular request para multiparty
+      const bodyBuffer = Buffer.from(event.body, 'base64');
+
+      const req = new Readable();
+      req.push(bodyBuffer);
+      req.push(null);
+
+      req.headers = {
+        'content-type': event.headers['content-type'] || event.headers['Content-Type'],
+      };
+
+      form.parse(req, async (err, fields, files) => {
         if (err) {
-          console.error('Form parse error', err);
-          return resolve({ statusCode: 500, body: 'Error parsing form data' });
+          console.error('Form parse error:', err);
+          return resolve({
+            statusCode: 500,
+            body: JSON.stringify({ error: 'Error parsing form data' }),
+          });
         }
 
         const nombre = fields.nombre?.[0];
@@ -70,7 +84,7 @@ exports.handler = async function (event) {
           });
         }
 
-        let imagen_url = null;
+        let imagen_url = "https://dfhulxkgsfhjgoqlyolv.supabase.co/storage/v1/object/public/testimonios/user1.jpg";
 
         if (imagen) {
           const ext = path.extname(imagen.originalFilename);
@@ -82,7 +96,7 @@ exports.handler = async function (event) {
               cacheControl: '3600',
               upsert: false,
             });
-        
+
           if (error) {
             console.error('Error subiendo imagen:', error);
             return resolve({
@@ -90,17 +104,13 @@ exports.handler = async function (event) {
               body: JSON.stringify({ error: 'Error subiendo imagen' }),
             });
           }
-        
+
           const { data: publicUrlData } = supabase.storage
             .from('testimonios')
             .getPublicUrl(nombreArchivo);
-        
+
           imagen_url = publicUrlData.publicUrl;
-        }else {
-        // Imagen por defecto si no se sube ninguna
-        imagen_url = "https://dfhulxkgsfhjgoqlyolv.supabase.co/storage/v1/object/public/testimonios//user1.jpg";
-       }
-      
+        }
 
         const { error: dbError } = await supabase.from('testimonios').insert([
           {
