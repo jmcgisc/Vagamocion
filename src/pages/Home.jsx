@@ -180,7 +180,7 @@ export default function Home() {
         {/* Imagen */}
         <div className="md:w-1/2">
           <img
-            src="/images/Collage.webp"
+            src="/images/Home.webp"
             alt="Viajes por el mundo"
             className="w-full max-w-md mx-auto rounded-3xl shadow-xl transition duration-500 notgroup-hover:scale-105"
           />
