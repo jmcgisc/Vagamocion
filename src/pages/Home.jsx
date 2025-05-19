@@ -31,14 +31,13 @@ const destinos = [
         "/images/sagradaFamilia.webp",
         "/images/santaSofia.webp",
         "/images/stonehenge.webp",
-        "/images/TorreEiffel.webp",
-        
+        "/images/TorreEiffel.webp"
       ],
     },
   {
     id: "japon",
     nombre: "Japón",
-    imagen: "/images/portadaJapon.jpeg",
+    imagen: "/images/portadaJapon",
     descripcion:
       "Descubre la armonía entre tecnología y tradición, con templos milenarios, cerezos en flor y una cultura fascinante.",
       galeria: [
@@ -56,7 +55,7 @@ const destinos = [
   {
     id: "disneyland",
     nombre: "Disneyland",
-    imagen: "/images/portadaDisney.jpeg",
+    imagen: "/images/portadaDisney.webp",
     descripcion:
       "Regresa a tu infancia con aventuras mágicas, castillos encantados y personajes que cobran vida en el lugar más feliz del mundo.",
       galeria: [
