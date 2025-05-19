@@ -41,7 +41,7 @@ export default function RedesSociales() {
 
         {/* Redes sociales */}
         <div className="flex space-x-6 text-2xl">
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition">
+          <a href="https://www.facebook.com/share/1Aa6QuQvPh/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition">
             <FaFacebook />
           </a>
           <a href="https://www.instagram.com/vagamocion_travel/" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition">

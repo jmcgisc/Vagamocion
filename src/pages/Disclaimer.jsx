@@ -1,6 +1,6 @@
 import Hero from "../components/Hero";
 import React from "react";
-import { useEffect, useState } from "react";
+import Footer from "../components/Footer";
 
 export default function Disclaimer() {
   return (
@@ -36,6 +36,8 @@ export default function Disclaimer() {
         </div>
       </div>
     </section>
+
+          <Footer/>
     </div>
    
   );

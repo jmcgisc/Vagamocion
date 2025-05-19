@@ -12,7 +12,9 @@ import FormularioContacto from "../components/FormularioContacto";
 import Servicios from "../components/Servicios";
 import WhatsAppFloat from "../components/WhatsAppFloat";
 import Footer from "../components/Footer";
-import QuienesSomos from "../components/QuienesSomos"; 
+import QuienesSomos from "../components/QuienesSomos"; import {
+  FaInstagram
+} from 'react-icons/fa'; 
 import 'swiper/css';
 import 'swiper/css/navigation';
 
@@ -248,6 +250,10 @@ export default function Home() {
       <div className="flex justify-center gap-4">
         <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full transition font-semibold shadow-md">
           Reservar ahora
+
+          <a href="https://www.instagram.com/vagamocion_travel/" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition">
+            <FaInstagram />
+          </a>
         </button>
         <button
           onClick={() => setMostrarGaleria(true)}
