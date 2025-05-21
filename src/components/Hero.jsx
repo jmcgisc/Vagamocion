@@ -55,7 +55,7 @@ export default function Hero() {
             </Link>
 
             <a
-                href="#destinos"
+                href="#destinos_destacados"
                 className="relative group text-gray-800 dark:text-gray-300 font-Montserrat tracking-wide hover:text-secondary transition-colors duration-300"
             >
                 <span className="group-hover:text-secondary transition">DESTINOS</span>
