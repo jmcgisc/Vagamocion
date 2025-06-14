@@ -8,12 +8,13 @@ export default function NuevaReseña({ onPublicado }) {
   const [servicio, setServicio] = useState("");
   const [estrellas, setEstrellas] = useState(0);
   const [mensaje, setMensaje] = useState("");
+  const [destino, setDestino] = useState("");
   const [imagen, setImagen] = useState(null);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
     
-      if (!nombre || !comentario || !servicio || estrellas === 0) {
+      if (!nombre || !comentario || !servicio || estrellas|| destino === 0) {
         alert("Por favor, completa todos los campos requeridos.");
         return;
       }
@@ -23,6 +24,7 @@ export default function NuevaReseña({ onPublicado }) {
       formData.append("texto", comentario);
       formData.append("servicio", servicio);
       formData.append("estrellas", estrellas);
+      formData.append("destino", destino);
     
       if (imagen) {
         formData.append("imagen", imagen);
@@ -39,6 +41,7 @@ export default function NuevaReseña({ onPublicado }) {
         setComentario("");
         setServicio("");
         setEstrellas(0);
+        setDestino("");
         setImagen(null); 
         if (onPublicado) onPublicado();
         setTimeout(() => setMensaje(""), 3000);
@@ -51,9 +54,9 @@ export default function NuevaReseña({ onPublicado }) {
   return (
     <>
       <Hero className="sticky top-0" />
-      <form onSubmit={handleSubmit} className="pt-40 max-w-xl mx-auto p-2 bg-white shadow-md">
-        <h2 className="text-4xl font-bold mb-4 text-center py-1">¿Cómo fue tu experiencia con </h2>
-        <h2 className="text-4xl font-bold mb-4 text-center py-1 text-primary"> Vagamocion Travel?</h2>
+      <form onSubmit={handleSubmit} className="pt-40 mt-10 ax-w-xl mx-auto p-2 bg-white shadow-md">
+        <h2 className="text-4xl font-bold mb-4 mt-10 text-center py-1">¿Cómo fue tu experiencia con </h2>
+        <h2 className="text-4xl font-bold mb-4 mt-10 text-center py-1 text-primary"> Vagamocion Travel?</h2>
 
         <label className="block mb-2 font-medium py-4">¡Calificanos con estrellas!</label>
         <span className="text-2xl font-semibold mb-6 text-center py-1 text-secondary">
@@ -88,6 +91,16 @@ export default function NuevaReseña({ onPublicado }) {
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
         />
+
+        <label className="block mb-2 font-medium">¿Que destino visitaste? *</label>
+        <input
+          type="text"
+          className="w-full p-2 mb-4 border rounded"
+          placeholder="Ej. Disney, Cancún, Europa, As1a..."
+          value={destino}
+          onChange={(e) => setDestino(e.target.value)}
+        />
+
 
         <label className="block mb-2 font-medium">Escribe un comentario</label>
         <textarea

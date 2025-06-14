@@ -52,10 +52,10 @@ app.post("/api/testimonios", upload.single("imagen"), (req, res) => {
       testimonios = JSON.parse(raw);
     }
 
-    const { nombre, texto, servicio, estrellas } = req.body;
+    const { nombre, texto, servicio, estrellas, destino } = req.body;
     const imagen = req.file ? `/uploads/${req.file.filename}` : "/uploads/user2.jpg";
 
-    if (!nombre || !texto || !servicio || !estrellas) {
+    if (!nombre || !texto || !servicio || !estrellas|| !destino) {
       return res.status(400).json({ error: "Faltan campos requeridos" });
     }
 
@@ -65,6 +65,7 @@ app.post("/api/testimonios", upload.single("imagen"), (req, res) => {
       servicio,
       estrellas: Number(estrellas),
       fecha: new Date().toISOString(),
+      destino,
       imagen,
     };
 

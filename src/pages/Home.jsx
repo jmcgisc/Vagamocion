@@ -16,7 +16,6 @@ import QuienesSomos from "../components/QuienesSomos";
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-
 const destinos = [
   {
     id: "europa",

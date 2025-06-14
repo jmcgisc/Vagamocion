@@ -75,9 +75,10 @@ exports.handler = async function (event) {
         const texto = fields.texto?.[0];
         const servicio = fields.servicio?.[0];
         const estrellas = parseInt(fields.estrellas?.[0], 10);
+        const destino = fields.destino?.[0];
         const imagen = files.imagen?.[0];
 
-        if (!nombre || !texto || !servicio || !estrellas) {
+        if (!nombre || !texto || !servicio || !estrellas || !destino) {
           return resolve({
             statusCode: 400,
             body: JSON.stringify({ error: "Faltan campos obligatorios" }),
@@ -119,6 +120,7 @@ exports.handler = async function (event) {
             servicio,
             estrellas,
             fecha: new Date().toISOString(),
+            destino,
             imagen_url,
           },
         ]);
