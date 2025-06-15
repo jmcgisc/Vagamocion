@@ -14,7 +14,7 @@ export default function NuevaReseña({ onPublicado }) {
     const handleSubmit = async (e) => {
       e.preventDefault();
     
-      if (!nombre || !comentario || !servicio || estrellas|| destino === 0) {
+      if (!nombre || !comentario || !servicio || estrellas === 0) {
         alert("Por favor, completa todos los campos requeridos.");
         return;
       }
