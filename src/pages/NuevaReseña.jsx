@@ -96,7 +96,7 @@ export default function NuevaReseña({ onPublicado }) {
         <input
           type="text"
           className="w-full p-2 mb-4 border rounded"
-          placeholder="Ej. Disney, Cancún, Europa, As1a..."
+          placeholder="Ej. Disney, Cancún, Europa, Asia..."
           value={destino}
           onChange={(e) => setDestino(e.target.value)}
         />

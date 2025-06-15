@@ -6,7 +6,6 @@ import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 
-
 export default function TestimoniosSlider() {
   const [testimonios, setTestimonios] = useState([]);
   const [current, setCurrent] = useState(0);
@@ -53,8 +52,8 @@ export default function TestimoniosSlider() {
     return <p className="text-center py-10">Cargando testimonios...</p>;
   }
 
-  const goToPrevious = () => setCurrent((prev) => (prev - 1 + testimonios.length) % testimonios.length);
-  const goToNext = () => setCurrent((prev) => (prev + 1) % testimonios.length);
+  const goToPrevious  = () => setCurrent((prev) => (prev - 1 + testimonios.length) % testimonios.length);
+  const goToNext      = () => setCurrent((prev) => (prev + 1) % testimonios.length);
 
   return (
     <section id="testimonios" className="bg-gradient-to-b from-white to-blue-50 px-4 sm:px-6 md:px-20 py-24 text-center relative">
@@ -86,6 +85,9 @@ export default function TestimoniosSlider() {
                 alt={t.nombre}
                 className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover mb-6 border-4 border-blue-500 shadow"
               />
+              <p className="text-lg sm:text-xl text-gray-700 italic relative leading-relaxed">
+                <span className="line-clamp-4 py-4">{t.destino}</span>
+              </p>
 
               <p className="text-lg sm:text-xl text-gray-700 italic relative leading-relaxed">
                 <span className="text-4xl sm:text-5xl text-blue-400 absolute top-[-10px] left-[-20px]">
