@@ -12,22 +12,27 @@ export default function NuevaReseña({ onPublicado }) {
   const [imagen, setImagen] = useState(null);
 
   const subirImagen = async () => {
-    if (!imagen) return null;
+  if (!imagen) return null;
 
-    const formData = new FormData();
-    formData.append("imagen", imagen);
+  const formData = new FormData();
+  formData.append("imagen", imagen);
 
-    try {
-      const res = await axios.post("/.netlify/functions/upload-imagen", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+  try {
+    const res = await fetch("/.netlify/functions/upload-imagen", {
+      method: "POST",
+      body: formData,
+    });
 
-      return res.data.url; // ✅ Este es el publicUrl que devuelve tu backend
-    } catch (err) {
-      console.error("Error al subir imagen:", err);
-      return null;
+    const data = await res.json();
+
+    if (!res.ok || !data.url) {
+      throw new Error("Error obteniendo URL de imagen");
+    }
+
+    return data.url;
+  } catch (error) {
+    console.error("Error al subir imagen:", error);
+    throw new Error("Error al subir imagen");
     }
   };
 
