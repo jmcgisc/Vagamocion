@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 const { Readable } = require('stream');
 
-// Inicializa Supabase
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 exports.handler = async (event) => {
@@ -29,11 +28,13 @@ exports.handler = async (event) => {
   return new Promise((resolve) => {
     const form = new multiparty.Form();
 
-    const bodyBuffer = Buffer.from(event.body, 'base64');
+    const bodyBuffer = event.isBase64Encoded
+      ? Buffer.from(event.body, 'base64')
+      : Buffer.from(event.body);
+
     const req = new Readable();
     req.push(bodyBuffer);
     req.push(null);
-
     req.headers = {
       'content-type': event.headers['content-type'] || event.headers['Content-Type'],
     };
