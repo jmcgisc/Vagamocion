@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { supabase } from '../supabaseClient';
+import { supabase } from '../components/supabaseClient';
 import Hero from "../components/Hero";
 
 export default function NuevaReseña({ onPublicado }) {
