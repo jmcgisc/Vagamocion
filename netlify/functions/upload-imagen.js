@@ -1,12 +1,14 @@
+// netlify/functions/upload-imagen.js
 const { createClient } = require('@supabase/supabase-js');
 const multiparty = require('multiparty');
 const fs = require('fs');
 const path = require('path');
 const { Readable } = require('stream');
 
+// Inicializa Supabase
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-exports.handler = async function (event) {
+exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
@@ -26,8 +28,8 @@ exports.handler = async function (event) {
 
   return new Promise((resolve) => {
     const form = new multiparty.Form();
-    const bodyBuffer = Buffer.from(event.body, 'base64');
 
+    const bodyBuffer = Buffer.from(event.body, 'base64');
     const req = new Readable();
     req.push(bodyBuffer);
     req.push(null);
@@ -38,7 +40,7 @@ exports.handler = async function (event) {
 
     form.parse(req, async (err, fields, files) => {
       if (err) {
-        console.error('Error al parsear formulario:', err);
+        console.error("Error al parsear el formulario:", err);
         return resolve({
           statusCode: 500,
           body: JSON.stringify({ error: 'Error al procesar el formulario' }),
@@ -46,6 +48,7 @@ exports.handler = async function (event) {
       }
 
       const imagen = files.imagen?.[0];
+
       if (!imagen) {
         return resolve({
           statusCode: 400,
@@ -55,30 +58,32 @@ exports.handler = async function (event) {
 
       const ext = path.extname(imagen.originalFilename);
       const nombreArchivo = `testimonio-${Date.now()}${ext}`;
+
       const { data, error } = await supabase.storage
         .from('testimonios')
         .upload(nombreArchivo, fs.createReadStream(imagen.path), {
           contentType: imagen.headers['content-type'],
-          cacheControl: '3600',
           upsert: false,
         });
 
       if (error) {
-        console.error('Error al subir imagen:', error);
+        console.error("Error al subir imagen:", error);
         return resolve({
           statusCode: 500,
           body: JSON.stringify({ error: 'Error subiendo imagen' }),
         });
       }
 
-      const { data: publicUrlData } = supabase.storage
+      const { data: publicData } = supabase.storage
         .from('testimonios')
         .getPublicUrl(nombreArchivo);
 
       return resolve({
         statusCode: 200,
-        body: JSON.stringify({ url: publicUrlData.publicUrl }),
-        headers: { 'Access-Control-Allow-Origin': '*' },
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({ url: publicData.publicUrl }),
       });
     });
   });
