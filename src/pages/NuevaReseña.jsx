@@ -85,7 +85,61 @@ export default function NuevaReseña({ onPublicado }) {
     <>
       <Hero className="sticky top-0" />
       <form onSubmit={handleSubmit} className="pt-40 max-w-xl mx-auto p-2 bg-white shadow-md">
-        {/* campos... igual que antes */}
+        <h2 className="text-4xl font-bold mb-4 mt-10 text-center py-1">¿Cómo fue tu experiencia con </h2>
+        <h2 className="text-4xl font-bold mb-4 mt-10 text-center py-1 text-primary"> Vagamocion Travel?</h2>
+
+        <label className="block mb-2 font-medium py-4">¡Calificanos con estrellas!</label>
+        <span className="text-2xl font-semibold mb-6 text-center py-1 text-secondary">
+          Si tuviste una gran experiencia, califica con 5 estrellas ⭐️
+        </span>
+        <div className="flex gap-2 mb-4">
+          {[1, 2, 3, 4, 5].map((n) => (
+            <span
+              key={n}
+              className={`cursor-pointer text-2xl ${estrellas >= n ? "text-yellow-400" : "text-gray-300"}`}
+              onClick={() => setEstrellas(n)}
+            >
+              ★
+            </span>
+          ))}
+        </div>
+
+        <label className="block mb-2 font-medium">¿Con qué servicio te ayudamos? *</label>
+        <input
+          type="text"
+          className="w-full p-2 mb-4 border rounded"
+          placeholder="Ej. Viaje, Hotel, Visado..."
+          value={servicio}
+          onChange={(e) => setServicio(e.target.value)}
+        />
+
+        <label className="block mb-2 font-medium">Nombre</label>
+        <input
+          type="text"
+          className="w-full p-2 mb-4 border rounded"
+          placeholder="Tu nombre"
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+        />
+
+        <label className="block mb-2 font-medium">¿Que destino visitaste? *</label>
+        <input
+          type="text"
+          className="w-full p-2 mb-4 border rounded"
+          placeholder="Ej. Disney, Cancún, Europa, Asia..."
+          value={destino}
+          onChange={(e) => setDestino(e.target.value)}
+        />
+
+
+        <label className="block mb-2 font-medium">Escribe un comentario</label>
+        <textarea
+          className="w-full p-2 mb-4 border rounded"
+          rows="4"
+          placeholder="Cuéntanos cómo fue tu experiencia"
+          value={comentario}
+          onChange={(e) => setComentario(e.target.value)}
+        />
 
         <label className="block mb-2 font-medium">Subir imagen (opcional)</label>
         <input
