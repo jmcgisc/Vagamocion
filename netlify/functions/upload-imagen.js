@@ -4,12 +4,9 @@ const multiparty = require('multiparty');
 const fs = require('fs');
 const path = require('path');
 const { Readable } = require('stream');
-const supabase = createClient(
 
-  'https://dfhulxkgsfhjgoqlyolv.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmaHVseGtnc2ZoamdvcWx5b2x2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1NDc5MDIsImV4cCI6MjA2MzEyMzkwMn0.MvP7PoR3l8TMI0tjapjxZVYrO1sq0ZSGIRqRinnHB2o' // no uses la secreta aquí
-);
 
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 exports.handler = async function (event) {
   if (event.httpMethod === 'OPTIONS') {
