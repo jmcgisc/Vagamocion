@@ -12,29 +12,30 @@ export default function NuevaReseña({ onPublicado }) {
   const [imagen, setImagen] = useState(null);
 
   const subirImagen = async () => {
-    if (!imagen) return null;
+  if (!imagen) return null;
 
-    const ext = imagen.name.split('.').pop();
-    const fileName = `testimonio-${Date.now()}.${ext}`;
+  const ext = imagen.name.split('.').pop();
+  const fileName = `testimonio-${Date.now()}.${ext}`;
 
-    const { data, error } = await supabase.storage
-      .from('testimonios')
-      .upload(fileName, imagen, {
-        contentType: imagen.type,
-        upsert: true,
-      });
+  const { data, error } = await supabase.storage
+    .from('testimonios')
+    .upload(fileName, imagen, {
+      contentType: imagen.type,
+      upsert: true,
+    });
 
-    if (error) {
-      console.error("Error subiendo imagen:", error);
-      throw new Error("Error al subir la imagen");
-    }
+  if (error) {
+    console.error("Error subiendo imagen:", error);
+    throw new Error("Error al subir la imagen");
+  }
 
-    const { data: { publicUrl } } = supabase.storage
-      .from('testimonios')
-      .getPublicUrl(fileName);
+  const { data: { publicUrl } } = supabase.storage
+    .from('testimonios')
+    .getPublicUrl(fileName);
 
-    return publicUrl;
+  return publicUrl;
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
