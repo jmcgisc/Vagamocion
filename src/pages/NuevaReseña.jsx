@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import { supabase } from '../supabaseClient';
 import Hero from "../components/Hero";
 
 export default function NuevaReseña({ onPublicado }) {
@@ -12,32 +12,28 @@ export default function NuevaReseña({ onPublicado }) {
   const [imagen, setImagen] = useState(null);
 
   const subirImagen = async () => {
-  if (!imagen) return null;
+    if (!imagen) return null;
 
-  const ext = imagen.name.split('.').pop();
-  const fileName = `testimonio-${Date.now()}.${ext}`;
+    const ext = imagen.name.split('.').pop();
+    const fileName = `testimonio-${Date.now()}.${ext}`;
 
-  // 1. Solicita URL firmada
-  const { data } = await axios.post("/.netlify/functions/generar-url-firmada", {
-    fileName,
-    fileType: imagen.type,
-  });
+    const { data, error } = await supabase.storage
+      .from('testimonios')
+      .upload(fileName, imagen, {
+        contentType: imagen.type,
+        upsert: true,
+      });
 
-  if (!data?.signedUrl || !data?.publicUrl) {
-    throw new Error("Error obteniendo URL de imagen");
-  }
+    if (error) {
+      console.error("Error subiendo imagen:", error);
+      throw new Error("Error al subir la imagen");
+    }
 
-  // 2. Sube la imagen directamente a Supabase
-  await fetch(data.signedUrl, {
-    method: "PUT",
-    headers: {
-      "Content-Type": imagen.type,
-    },
-    body: imagen,
-  });
+    const { data: { publicUrl } } = supabase.storage
+      .from('testimonios')
+      .getPublicUrl(fileName);
 
-  // 3. Devuelve la URL pública
-    return data.publicUrl;
+    return publicUrl;
   };
 
   const handleSubmit = async (e) => {
@@ -54,14 +50,16 @@ export default function NuevaReseña({ onPublicado }) {
         imagen_url = await subirImagen();
       }
 
-      await axios.post("/.netlify/functions/testimonios", {
+      const { error } = await supabase.from('reseñas').insert([{
         nombre,
         texto: comentario,
         servicio,
         estrellas,
         destino,
         imagen_url,
-      });
+      }]);
+
+      if (error) throw error;
 
       setMensaje("¡Gracias por tu reseña!");
       setNombre("");
@@ -82,7 +80,9 @@ export default function NuevaReseña({ onPublicado }) {
     <>
       <Hero className="sticky top-0" />
       <form onSubmit={handleSubmit} className="pt-40 max-w-xl mx-auto p-4 bg-white shadow-md">
-        <h2 className="text-4xl font-bold mb-4 text-center">¿Cómo fue tu experiencia con <span className="text-primary">Vagamocion Travel?</span></h2>
+        <h2 className="text-4xl font-bold mb-4 text-center">
+          ¿Cómo fue tu experiencia con <span className="text-primary">Vagamocion Travel?</span>
+        </h2>
 
         <label className="block mb-2 font-medium">Calificación:</label>
         <div className="flex gap-2 mb-4">
