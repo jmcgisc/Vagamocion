@@ -74,17 +74,25 @@ exports.handler = async function (event) {
         });
       }
 
-      const { data: publicUrlData } = supabase.storage
-        .from('testimonios')
-        .getPublicUrl(nombreArchivo);
+      const { data: publicUrlData, error: urlError } = supabase.storage
+      .from('testimonios')
+      .getPublicUrl(nombreArchivo);
 
+    if (urlError || !publicUrlData?.publicUrl) {
+      console.error('Error obteniendo URL pública:', urlError);
       return resolve({
-        statusCode: 200,
-        body: JSON.stringify({ url: publicUrlData.publicUrl }),
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-        },
+        statusCode: 500,
+        body: JSON.stringify({ error: 'No se pudo obtener la URL de la imagen' }),
       });
+    }
+
+    return resolve({
+      statusCode: 200,
+      body: JSON.stringify({ url: publicUrlData.publicUrl }),
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
     });
   });
 };
