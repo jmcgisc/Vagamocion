@@ -1,13 +1,6 @@
-
 const { createClient } = require('@supabase/supabase-js');
-const multiparty = require('multiparty');
-const fs = require('fs');
-const path = require('path');
-const { Readable } = require('stream');
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
-
-// /.netlify/functions/testimonios  
 
 exports.handler = async function (event) {
   if (event.httpMethod === 'OPTIONS') {
@@ -27,65 +20,47 @@ exports.handler = async function (event) {
     };
   }
 
-  return new Promise((resolve) => {
-    const form = new multiparty.Form();
+  try {
+    const { fileName, fileType } = JSON.parse(event.body);
 
-    // Convertimos el body a stream legible
-    const bodyBuffer = Buffer.from(event.body, 'base64');
+    if (!fileName || !fileType) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Faltan parámetros' }),
+      };
+    }
 
-    const req = new Readable();
-    req.push(bodyBuffer);
-    req.push(null);
-    req.headers = {
-      'content-type': event.headers['content-type'] || event.headers['Content-Type'],
+    const { data, error } = await supabase.storage
+      .from('testimonios')
+      .createSignedUploadUrl(fileName, fileType);
+
+    if (error) {
+      console.error('Error al crear signed URL:', error);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Error creando la URL firmada' }),
+      };
+    }
+
+    const publicUrl = supabase.storage
+      .from('testimonios')
+      .getPublicUrl(fileName).data.publicUrl;
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        signedUrl: data.signedUrl,
+        publicUrl,
+      }),
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
     };
-
-    form.parse(req, async (err, fields, files) => {
-      if (err) {
-        console.error('Error al parsear el formulario:', err);
-        return resolve({
-          statusCode: 500,
-          body: JSON.stringify({ error: 'Error al procesar el formulario' }),
-        });
-      }
-
-      const imagen = files.imagen?.[0];
-      if (!imagen) {
-        return resolve({
-          statusCode: 400,
-          body: JSON.stringify({ error: 'No se recibió ninguna imagen' }),
-        });
-      }
-
-      const ext = path.extname(imagen.originalFilename);
-      const nombreArchivo = `testimonio-${Date.now()}${ext}`;
-      const { data, error } = await supabase.storage
-        .from('testimonios')
-        .upload(nombreArchivo, fs.createReadStream(imagen.path), {
-          contentType: imagen.headers['content-type'],
-          cacheControl: '3600',
-          upsert: false,
-        });
-
-      if (error) {
-        console.error('Error al subir imagen:', error);
-        return resolve({
-          statusCode: 500,
-          body: JSON.stringify({ error: 'Error subiendo imagen' }),
-        });
-      }
-
-      const { data: publicUrlData } = supabase.storage
-        .from('testimonios')
-        .getPublicUrl(nombreArchivo);
-
-      return resolve({
-        statusCode: 200,
-        body: JSON.stringify({ url: publicUrlData.publicUrl }),
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-        },
-      });
-    });
-  });
+  } catch (err) {
+    console.error('Error general:', err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Error interno' }),
+    };
+  }
 };
