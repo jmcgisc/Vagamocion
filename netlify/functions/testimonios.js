@@ -56,7 +56,7 @@ exports.handler = async function (event) {
           estrellas,
           fecha: new Date().toISOString(),
           destino,
-          imagen_url: imagen_url || 'https://dfhulxkgsfhjgoqlyolv.supabase.co/storage/v1/object/public/testimonios/user1.jpg',
+imagen_url: imagen_url?.trim() ? imagen_url : 'https://dfhulxkgsfhjgoqlyolv.supabase.co/storage/v1/object/public/testimonios/user1.jpg',
         },
       ]);
 
