@@ -26,22 +26,19 @@ exports.handler = async function (event) {
 
   return new Promise((resolve) => {
     const form = new multiparty.Form();
-
-    let reqBody = event.body;
-    if (event.isBase64Encoded) {
-      reqBody = Buffer.from(event.body, 'base64');
-    }
+    const bodyBuffer = Buffer.from(event.body, 'base64');
 
     const req = new Readable();
-    req.push(reqBody);
+    req.push(bodyBuffer);
     req.push(null);
+
     req.headers = {
       'content-type': event.headers['content-type'] || event.headers['Content-Type'],
     };
 
     form.parse(req, async (err, fields, files) => {
       if (err) {
-        console.error('Error al parsear el formulario:', err);
+        console.error('Error al parsear formulario:', err);
         return resolve({
           statusCode: 500,
           body: JSON.stringify({ error: 'Error al procesar el formulario' }),
@@ -74,25 +71,15 @@ exports.handler = async function (event) {
         });
       }
 
-      const { data: publicUrlData, error: urlError } = supabase.storage
-      .from('testimonios')
-      .getPublicUrl(nombreArchivo);
+      const { data: publicUrlData } = supabase.storage
+        .from('testimonios')
+        .getPublicUrl(nombreArchivo);
 
-    if (urlError || !publicUrlData?.publicUrl) {
-      console.error('Error obteniendo URL pública:', urlError);
       return resolve({
-        statusCode: 500,
-        body: JSON.stringify({ error: 'No se pudo obtener la URL de la imagen' }),
+        statusCode: 200,
+        body: JSON.stringify({ url: publicUrlData.publicUrl }),
+        headers: { 'Access-Control-Allow-Origin': '*' },
       });
-    }
-
-    return resolve({
-      statusCode: 200,
-      body: JSON.stringify({ url: publicUrlData.publicUrl }),
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-    });
     });
   });
 };

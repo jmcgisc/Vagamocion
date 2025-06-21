@@ -12,19 +12,23 @@ export default function NuevaReseña({ onPublicado }) {
   const [imagen, setImagen] = useState(null);
 
   const subirImagen = async () => {
-  if (!imagen) return null;
+    if (!imagen) return null;
 
-  const formData = new FormData();
-  formData.append("imagen", imagen);
+    const formData = new FormData();
+    formData.append("imagen", imagen);
 
-  const { data } = await axios.post("/.netlify/functions/upload-imagen", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    try {
+      const res = await axios.post("/.netlify/functions/upload-imagen", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-    if (!data.url) throw new Error("Error obteniendo URL de imagen");
-    return data.url;
+      return res.data.url;
+    } catch (err) {
+      console.error("Error al subir imagen:", err);
+      throw new Error("Error obteniendo URL de imagen");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -68,15 +72,10 @@ export default function NuevaReseña({ onPublicado }) {
   return (
     <>
       <Hero className="sticky top-0" />
-      <form onSubmit={handleSubmit} className="pt-40 max-w-xl mx-auto p-2 bg-white shadow-md">
-        <h2 className="text-4xl font-bold mb-4 mt-10 text-center py-1">
-          ¿Cómo fue tu experiencia con
-        </h2>
-        <h2 className="text-4xl font-bold mb-4 mt-10 text-center py-1 text-primary">
-          Vagamocion Travel?
-        </h2>
+      <form onSubmit={handleSubmit} className="pt-40 max-w-xl mx-auto p-4 bg-white shadow-md">
+        <h2 className="text-4xl font-bold mb-4 text-center">¿Cómo fue tu experiencia con <span className="text-primary">Vagamocion Travel?</span></h2>
 
-        <label className="block mb-2 font-medium py-4">¡Califícanos con estrellas!</label>
+        <label className="block mb-2 font-medium">Calificación:</label>
         <div className="flex gap-2 mb-4">
           {[1, 2, 3, 4, 5].map((n) => (
             <span
@@ -89,43 +88,35 @@ export default function NuevaReseña({ onPublicado }) {
           ))}
         </div>
 
-        <label className="block mb-2 font-medium">¿Con qué servicio te ayudamos? *</label>
         <input
           type="text"
           className="w-full p-2 mb-4 border rounded"
-          placeholder="Ej. Viaje, Hotel, Visado..."
-          value={servicio}
-          onChange={(e) => setServicio(e.target.value)}
-        />
-
-        <label className="block mb-2 font-medium">Nombre</label>
-        <input
-          type="text"
-          className="w-full p-2 mb-4 border rounded"
-          placeholder="Tu nombre"
+          placeholder="Nombre"
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
         />
-
-        <label className="block mb-2 font-medium">¿Qué destino visitaste? *</label>
         <input
           type="text"
           className="w-full p-2 mb-4 border rounded"
-          placeholder="Ej. Disney, Cancún, Europa, Asia..."
+          placeholder="Servicio recibido"
+          value={servicio}
+          onChange={(e) => setServicio(e.target.value)}
+        />
+        <input
+          type="text"
+          className="w-full p-2 mb-4 border rounded"
+          placeholder="Destino visitado"
           value={destino}
           onChange={(e) => setDestino(e.target.value)}
         />
-
-        <label className="block mb-2 font-medium">Escribe un comentario</label>
         <textarea
           className="w-full p-2 mb-4 border rounded"
           rows="4"
-          placeholder="Cuéntanos cómo fue tu experiencia"
+          placeholder="Comentario"
           value={comentario}
           onChange={(e) => setComentario(e.target.value)}
         />
 
-        <label className="block mb-2 font-medium">Subir imagen (opcional)</label>
         <input
           type="file"
           accept="image/*"
@@ -135,7 +126,7 @@ export default function NuevaReseña({ onPublicado }) {
 
         <button
           type="submit"
-          className="w-full bg-primary hover:bg-secondary text-white py-3 px-4 full-rounded transition"
+          className="w-full bg-primary hover:bg-secondary text-white py-3 px-4 rounded-full transition"
         >
           Publicar reseña
         </button>
