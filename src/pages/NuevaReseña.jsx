@@ -14,32 +14,21 @@ export default function NuevaReseña({ onPublicado }) {
   const subirImagen = async () => {
     if (!imagen) return null;
 
-    const ext = imagen.name.split(".").pop();
-    const fileName = `testimonio-${Date.now()}.${ext}`;
+    const formData = new FormData();
+    formData.append("imagen", imagen);
 
-    const { data, error } = await fetch("/.netlify/functions/upload", {
-      method: "POST",
-      body: JSON.stringify({
-        fileName,
-        fileType: imagen.type,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json());
+    try {
+      const res = await axios.post("/.netlify/functions/upload-imagen", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-    if (error) throw new Error("Error obteniendo URL firmada");
-
-    // Subimos a la URL firmada
-    await fetch(data.signedUrl, {
-      method: "PUT",
-      headers: {
-        "Content-Type": imagen.type,
-      },
-      body: imagen,
-    });
-
-    return data.publicUrl;
+      return res.data.url; // ✅ Este es el publicUrl que devuelve tu backend
+    } catch (err) {
+      console.error("Error al subir imagen:", err);
+      return null;
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -52,7 +41,6 @@ export default function NuevaReseña({ onPublicado }) {
 
     try {
       let imagen_url = null;
-
       if (imagen) {
         imagen_url = await subirImagen();
       }
@@ -85,13 +73,14 @@ export default function NuevaReseña({ onPublicado }) {
     <>
       <Hero className="sticky top-0" />
       <form onSubmit={handleSubmit} className="pt-40 max-w-xl mx-auto p-2 bg-white shadow-md">
-        <h2 className="text-4xl font-bold mb-4 mt-10 text-center py-1">¿Cómo fue tu experiencia con </h2>
-        <h2 className="text-4xl font-bold mb-4 mt-10 text-center py-1 text-primary"> Vagamocion Travel?</h2>
+        <h2 className="text-4xl font-bold mb-4 mt-10 text-center py-1">
+          ¿Cómo fue tu experiencia con
+        </h2>
+        <h2 className="text-4xl font-bold mb-4 mt-10 text-center py-1 text-primary">
+          Vagamocion Travel?
+        </h2>
 
-        <label className="block mb-2 font-medium py-4">¡Calificanos con estrellas!</label>
-        <span className="text-2xl font-semibold mb-6 text-center py-1 text-secondary">
-          Si tuviste una gran experiencia, califica con 5 estrellas ⭐️
-        </span>
+        <label className="block mb-2 font-medium py-4">¡Califícanos con estrellas!</label>
         <div className="flex gap-2 mb-4">
           {[1, 2, 3, 4, 5].map((n) => (
             <span
@@ -122,7 +111,7 @@ export default function NuevaReseña({ onPublicado }) {
           onChange={(e) => setNombre(e.target.value)}
         />
 
-        <label className="block mb-2 font-medium">¿Que destino visitaste? *</label>
+        <label className="block mb-2 font-medium">¿Qué destino visitaste? *</label>
         <input
           type="text"
           className="w-full p-2 mb-4 border rounded"
@@ -130,7 +119,6 @@ export default function NuevaReseña({ onPublicado }) {
           value={destino}
           onChange={(e) => setDestino(e.target.value)}
         />
-
 
         <label className="block mb-2 font-medium">Escribe un comentario</label>
         <textarea
