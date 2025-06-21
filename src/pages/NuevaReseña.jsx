@@ -17,7 +17,7 @@ export default function NuevaReseña({ onPublicado }) {
     const ext = imagen.name.split(".").pop();
     const fileName = `testimonio-${Date.now()}.${ext}`;
 
-    const { data, error } = await fetch("/.netlify/functions/upload-imagen", {
+    const { data, error } = await fetch("/.netlify/functions/upload", {
       method: "POST",
       body: JSON.stringify({
         fileName,
