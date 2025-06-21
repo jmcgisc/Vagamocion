@@ -5,8 +5,8 @@ const fs = require('fs');
 const path = require('path');
 const { Readable } = require('stream');
 
-
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+
 
 exports.handler = async function (event) {
   if (event.httpMethod === 'OPTIONS') {
