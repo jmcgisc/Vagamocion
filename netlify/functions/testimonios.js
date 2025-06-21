@@ -1,17 +1,6 @@
+// /.netlify/functions/testimonios
 const { createClient } = require('@supabase/supabase-js');
-const multiparty = require('multiparty');
-const fs = require('fs');
-const path = require('path');
-const { Readable } = require('stream');
-
-const supabaseKey = process.env.SUPABASE_KEY;
-const supabaseUrl = process.env.SUPABASE_URL;
-
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error("supabaseUrl and supabaseKey are required.");
-}
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 exports.handler = async function (event) {
   if (event.httpMethod === 'OPTIONS') {
@@ -48,98 +37,51 @@ exports.handler = async function (event) {
   }
 
   if (event.httpMethod === 'POST') {
-    return new Promise((resolve) => {
-      const form = new multiparty.Form();
+    try {
+      const body = JSON.parse(event.body);
+      const { nombre, texto, servicio, estrellas, destino, imagen_url } = body;
 
-      // Simular request para multiparty
-      const bodyBuffer = Buffer.from(event.body, 'base64');
+      if (!nombre || !texto || !servicio || !estrellas || !destino) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ error: 'Faltan campos obligatorios' }),
+        };
+      }
 
-      const req = new Readable();
-      req.push(bodyBuffer);
-      req.push(null);
+      const { error: dbError } = await supabase.from('testimonios').insert([
+        {
+          nombre,
+          texto,
+          servicio,
+          estrellas,
+          fecha: new Date().toISOString(),
+          destino,
+          imagen_url: imagen_url || 'https://dfhulxkgsfhjgoqlyolv.supabase.co/storage/v1/object/public/testimonios/user1.jpg',
+        },
+      ]);
 
-      req.headers = {
-        'content-type': event.headers['content-type'] || event.headers['Content-Type'],
+      if (dbError) {
+        console.error('Error guardando en DB:', dbError);
+        return {
+          statusCode: 500,
+          body: JSON.stringify({ error: 'Error guardando testimonio' }),
+        };
+      }
+
+      return {
+        statusCode: 201,
+        body: JSON.stringify({ mensaje: 'Testimonio guardado correctamente' }),
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
       };
-
-      form.parse(req, async (err, fields, files) => {
-        if (err) {
-          console.error('Form parse error:', err);
-          return resolve({
-            statusCode: 500,
-            body: JSON.stringify({ error: 'Error parsing form data' }),
-          });
-        }
-
-        const nombre = fields.nombre?.[0];
-        const texto = fields.texto?.[0];
-        const servicio = fields.servicio?.[0];
-        const estrellas = parseInt(fields.estrellas?.[0], 10);
-        const destino = fields.destino?.[0];
-        const imagen = files.imagen?.[0];
-
-        if (!nombre || !texto || !servicio || !estrellas || !destino) {
-          return resolve({
-            statusCode: 400,
-            body: JSON.stringify({ error: "Faltan campos obligatorios" }),
-          });
-        }
-
-        let imagen_url = "https://dfhulxkgsfhjgoqlyolv.supabase.co/storage/v1/object/public/testimonios/user1.jpg";
-
-        if (imagen) {
-          const ext = path.extname(imagen.originalFilename);
-          const nombreArchivo = `testimonio-${Date.now()}${ext}`;
-          const { data, error } = await supabase.storage
-            .from('testimonios')
-            .upload(nombreArchivo, fs.createReadStream(imagen.path), {
-              contentType: imagen.headers['content-type'],
-              cacheControl: '3600',
-              upsert: false,
-            });
-
-          if (error) {
-            console.error('Error subiendo imagen:', error);
-            return resolve({
-              statusCode: 500,
-              body: JSON.stringify({ error: 'Error subiendo imagen' }),
-            });
-          }
-
-          const { data: publicUrlData } = supabase.storage
-            .from('testimonios')
-            .getPublicUrl(nombreArchivo);
-
-          imagen_url = publicUrlData.publicUrl;
-        }
-
-        const { error: dbError } = await supabase.from('testimonios').insert([
-          {
-            nombre,
-            texto,
-            servicio,
-            estrellas,
-            fecha: new Date().toISOString(),
-            destino,
-            imagen_url,
-          },
-        ]);
-
-        if (dbError) {
-          console.error('Error guardando en DB:', dbError);
-          return resolve({
-            statusCode: 500,
-            body: JSON.stringify({ error: 'Error guardando testimonio' }),
-          });
-        }
-
-        return resolve({
-          statusCode: 201,
-          body: JSON.stringify({ mensaje: 'Testimonio guardado correctamente' }),
-          headers: { 'Access-Control-Allow-Origin': '*' },
-        });
-      });
-    });
+    } catch (err) {
+      console.error('Error en POST:', err);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Error procesando solicitud' }),
+      };
+    }
   }
 
   return {
