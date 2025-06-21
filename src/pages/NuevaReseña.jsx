@@ -12,23 +12,32 @@ export default function NuevaReseña({ onPublicado }) {
   const [imagen, setImagen] = useState(null);
 
   const subirImagen = async () => {
-    if (!imagen) return null;
+  if (!imagen) return null;
 
-    const formData = new FormData();
-    formData.append("imagen", imagen);
+  const ext = imagen.name.split('.').pop();
+  const fileName = `testimonio-${Date.now()}.${ext}`;
 
-    try {
-      const res = await axios.post("/.netlify/functions/upload-imagen", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+  // 1. Solicita URL firmada
+  const { data } = await axios.post("/.netlify/functions/generar-url-firmada", {
+    fileName,
+    fileType: imagen.type,
+  });
 
-      return res.data.url;
-    } catch (err) {
-      console.error("Error al subir imagen:", err);
-      throw new Error("Error obteniendo URL de imagen");
-    }
+  if (!data?.signedUrl || !data?.publicUrl) {
+    throw new Error("Error obteniendo URL de imagen");
+  }
+
+  // 2. Sube la imagen directamente a Supabase
+  await fetch(data.signedUrl, {
+    method: "PUT",
+    headers: {
+      "Content-Type": imagen.type,
+    },
+    body: imagen,
+  });
+
+  // 3. Devuelve la URL pública
+    return data.publicUrl;
   };
 
   const handleSubmit = async (e) => {
