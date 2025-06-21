@@ -17,23 +17,14 @@ export default function NuevaReseña({ onPublicado }) {
   const formData = new FormData();
   formData.append("imagen", imagen);
 
-  try {
-    const res = await fetch("/.netlify/functions/upload-imagen", {
-      method: "POST",
-      body: formData,
+  const { data } = await axios.post("/.netlify/functions/upload-imagen", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
 
-    const data = await res.json();
-
-    if (!res.ok || !data.url) {
-      throw new Error("Error obteniendo URL de imagen");
-    }
-
+    if (!data.url) throw new Error("Error obteniendo URL de imagen");
     return data.url;
-  } catch (error) {
-    console.error("Error al subir imagen:", error);
-    throw new Error("Error al subir imagen");
-    }
   };
 
   const handleSubmit = async (e) => {
