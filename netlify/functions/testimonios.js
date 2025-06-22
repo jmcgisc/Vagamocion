@@ -29,12 +29,17 @@ exports.handler = async (event) => {
   }
 
   // POST → agregar uno nuevo
-  if (event.httpMethod === 'POST') {
-    let payload;
+      if (event.httpMethod === "POST") {
     try {
-      payload = JSON.parse(event.body);
-    } catch (e) {
-      return { statusCode: 400, body: JSON.stringify({ error: 'JSON inválido' }) };
+      const { nombre, texto, servicio, estrellas, destino, imagen_url } = JSON.parse(event.body);
+      await supabase.from("testimonios").insert([
+        { nombre, texto, servicio, estrellas, destino, imagen_url, fecha: new Date().toISOString() },
+        ]);
+        return { statusCode: 201, body: JSON.stringify({ mensaje: "Guardado" }) };
+      } catch (e) {
+        console.error(e);
+        return { statusCode: 500, body: JSON.stringify({ error: "DB error" }) };
+      }
     }
 
     const { nombre, servicio, destino, estrellas, texto, imagen_url } = payload;

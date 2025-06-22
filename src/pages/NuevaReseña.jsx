@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Hero from "../components/Hero";
+import { supabase } from "../lib/supabase";
 
 export default function NuevaReseña({ onPublicado }) {
   const [nombre, setNombre] = useState("");
@@ -34,40 +35,57 @@ export default function NuevaReseña({ onPublicado }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!nombre || !servicio || !destino || estrellas === 0 || !comentario) {
-      return alert("Por favor, completa todos los campos requeridos.");
+    if (!nombre || !comentario || !servicio || estrellas === 0 || !destino) {
+      alert("Completa todos los campos");
+      return;
     }
 
-    try {
-      let imagen_url = null;
-      if (imagen) {
-        imagen_url = await subirImagenSigned();
+    let imagen_url = null;
+    if (imagen) {
+      // 1) Generamos un nombre único
+      const ext = imagen.name.split(".").pop();
+      const fileName = `testimonio-${Date.now()}.${ext}`;
+      // 2) Subimos con el cliente anon
+      const { error: uploadError } = await supabase.storage
+        .from("testimonios")
+        .upload(fileName, imagen, { cacheControl: "3600", upsert: false });
+      if (uploadError) {
+        console.error("Error subiendo imagen:", uploadError);
+        setMensaje("Error al subir imagen");
+        return;
       }
-
-      await axios.post("/.netlify/functions/testimonios", {
-        nombre,
-        servicio,
-        destino,
-        estrellas,
-        texto: comentario,
-        imagen_url,
-      });
-
-      setMensaje("¡Gracias por tu reseña!");
-      setNombre("");
-      setServicio("");
-      setDestino("");
-      setEstrellas(0);
-      setComentario("");
-      setImagen(null);
-      if (onPublicado) onPublicado();
-    } catch (err) {
-      console.error(err);
-      setMensaje("Ocurrió un error. Intenta de nuevo.");
+      // 3) Obtenemos la URL pública
+      const { publicURL, error: urlError } = supabase.storage
+        .from("testimonios")
+        .getPublicUrl(fileName);
+      if (urlError) {
+        console.error("Error obteniendo URL pública:", urlError);
+        setMensaje("Error obteniendo URL de imagen");
+        return;
+      }
+      imagen_url = publicURL;
     }
 
-    setTimeout(() => setMensaje(""), 3000);
+    // 4) Insertamos el testimonio (sin la parte de imagen que ya subimos)
+    try {
+      await axios.post(
+        "/.netlify/functions/testimonios",
+        { nombre, texto: comentario, servicio, estrellas, destino, imagen_url },
+        { headers: { "Content-Type": "application/json" } }
+      );
+      setMensaje("¡Reseña publicada!");
+      setNombre("");
+      setComentario("");
+      setServicio("");
+      setEstrellas(0);
+      setDestino("");
+      setImagen(null);
+      onPublicado?.();
+      setTimeout(() => setMensaje(""), 3000);
+    } catch (err) {
+      console.error("Error enviando testimonio:", err);
+      setMensaje("Error al publicar reseña");
+    }
   };
 
   return (
@@ -137,7 +155,7 @@ export default function NuevaReseña({ onPublicado }) {
         <input
           type="file"
           accept="image/*"
-          onChange={(e) => setImagen(e.target.files[0])}
+          onChange={(e) => setImagen(e.target.files[0])} 
           className="block w-full text-sm text-gray-500
             file:mr-4 file:py-2 file:px-4
             file:rounded file:border-0
