@@ -126,12 +126,16 @@ export default function NuevaReseña({ onPublicado }) {
         />
 
         <label className="block mb-2 font-medium">Subir imagen (opcional)</label>
-        <input
-          type="file"
-          accept="image/*"
-          className="mb-4"
-          onChange={(e) => setImagen(e.target.files[0])}
-        />
+        <label className="cursor-pointer inline-block bg-primary text-white py-2 px-4 rounded mb-4 hover:bg-secondary">
+          Seleccionar imagen
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => setImagen(e.target.files[0])}
+          />
+        </label>
+        {imagen && <p className="text-sm text-gray-600 mb-4">Archivo seleccionado: {imagen.name}</p>}
 
         <button
           type="submit"
