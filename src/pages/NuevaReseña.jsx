@@ -119,26 +119,23 @@ export default function NuevaReseña({ onPublicado }) {
         />
 
         <div className="mb-4">
-          <label className="block mb-2 font-medium">Subir imagen (opcional)</label>
+        <label htmlFor="imagen" className="block mb-2 font-medium">Subir imagen (opcional)</label>
 
-          {/* 👇 Botón que dispara el input */}
-          <div
-            onClick={() => fileInputRef.current?.click()}
-            className="cursor-pointer inline-block bg-primary text-white py-2 px-4 rounded hover:bg-secondary transition"
-          >
-            Seleccionar imagen
-          </div>
+        {/* Input visible pero estilizado como botón */}
+        <input
+          id="imagen"
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImagen(e.target.files[0])}
+          className="block w-full text-sm text-gray-500
+            file:mr-4 file:py-2 file:px-4
+            file:rounded file:border-0
+            file:text-sm file:font-semibold
+            file:bg-primary file:text-white
+            hover:file:bg-secondary
+            cursor-pointer"
+        />
 
-          {/* 👇 Input oculto */}
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={(e) => setImagen(e.target.files[0])}
-          />
-
-          {/* Nombre del archivo seleccionado */}
           {imagen && (
             <p className="text-sm text-gray-600 mt-2">
               Imagen seleccionada: <strong>{imagen.name}</strong>
