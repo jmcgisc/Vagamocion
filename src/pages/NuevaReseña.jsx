@@ -12,86 +12,76 @@ export default function NuevaReseña({ onPublicado }) {
   const [imagen, setImagen] = useState(null);
   const [mensaje, setMensaje] = useState("");
 
-  const subirImagenSigned = async () => {
-    const ext = imagen.name.split(".").pop();
-    const fileName = `testimonio-${Date.now()}.${ext}`;
-
-    // 1) Pide signed URL
-    const { data } = await axios.post("/.netlify/functions/generar-url-firmada", {
-      fileName,
-      fileType: imagen.type,
-    });
-    if (!data.signedUrl) throw new Error("No se obtuvo signedUrl");
-
-    // 2) Sube directo a Supabase
-    await fetch(data.signedUrl, {
-      method: "PUT",
-      headers: { "Content-Type": imagen.type },
-      body: imagen,
-    });
-
-    return data.publicUrl;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!nombre || !comentario || !servicio || estrellas === 0 || !destino) {
-      alert("Completa todos los campos");
+    if (!nombre || !servicio || !destino || estrellas === 0 || !comentario) {
+      alert("Por favor, completa todos los campos obligatorios.");
       return;
     }
 
     let imagen_url = null;
+
     if (imagen) {
-      // 1) Generamos un nombre único
+      // 1. Generar un nombre único para el archivo
       const ext = imagen.name.split(".").pop();
       const fileName = `testimonio-${Date.now()}.${ext}`;
-      // 2) Subimos con el cliente anon
-      const { error: uploadError } = await supabase.storage
+
+      // 2. Subir la imagen a Supabase Storage con la clave ANON
+      const { data: uploadData, error: uploadError } = await supabase.storage
         .from("testimonios")
         .upload(fileName, imagen, { cacheControl: "3600", upsert: false });
+
       if (uploadError) {
         console.error("Error subiendo imagen:", uploadError);
-        setMensaje("Error al subir imagen");
+        setMensaje("Error al subir la imagen.");
         return;
       }
-      // 3) Obtenemos la URL pública
+
+      // 3. Obtener la URL pública de la imagen
       const { publicURL, error: urlError } = supabase.storage
         .from("testimonios")
         .getPublicUrl(fileName);
+
       if (urlError) {
         console.error("Error obteniendo URL pública:", urlError);
-        setMensaje("Error obteniendo URL de imagen");
+        setMensaje("Error obteniendo URL de la imagen.");
         return;
       }
       imagen_url = publicURL;
     }
 
-    // 4) Insertamos el testimonio (sin la parte de imagen que ya subimos)
+    // 4. Enviar los datos del testimonio al endpoint Netlify
     try {
       await axios.post(
         "/.netlify/functions/testimonios",
-        { nombre, texto: comentario, servicio, estrellas, destino, imagen_url },
+        { nombre, servicio, destino, estrellas, texto: comentario, imagen_url },
         { headers: { "Content-Type": "application/json" } }
       );
-      setMensaje("¡Reseña publicada!");
+      setMensaje("¡Reseña publicada con éxito!");
+      // Resetear formulario
       setNombre("");
-      setComentario("");
       setServicio("");
-      setEstrellas(0);
       setDestino("");
+      setEstrellas(0);
+      setComentario("");
       setImagen(null);
       onPublicado?.();
-      setTimeout(() => setMensaje(""), 3000);
     } catch (err) {
       console.error("Error enviando testimonio:", err);
-      setMensaje("Error al publicar reseña");
+      setMensaje("Error al publicar la reseña.");
     }
+
+    // Limpiar mensaje tras 3 segundos
+    setTimeout(() => setMensaje(""), 3000);
   };
 
   return (
     <>
       <Hero className="sticky top-0" />
-      <form onSubmit={handleSubmit} className="pt-40 max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg">
+      <form
+        onSubmit={handleSubmit}
+        className="pt-40 max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg"
+      >
         <h2 className="text-3xl font-bold mb-6 text-center">
           ¿Cómo fue tu experiencia con <span className="text-primary">Vagamocion Travel?</span>
         </h2>
@@ -100,30 +90,30 @@ export default function NuevaReseña({ onPublicado }) {
         <label className="block mb-2 font-medium">Nombre *</label>
         <input
           type="text"
-          className="w-full p-2 mb-4 border rounded"
-          placeholder="Nombre..."
+          placeholder="Tu nombre"
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
+          className="w-full p-2 mb-4 border rounded"
         />
 
         {/* Servicio */}
         <label className="block mb-2 font-medium">Servicio recibido *</label>
         <input
           type="text"
-          className="w-full p-2 mb-4 border rounded"
-          placeholder="Ej. Vuelo, Hotel, Tour..."
+          placeholder="Ej. Vuelo, Hotel, Tour"
           value={servicio}
           onChange={(e) => setServicio(e.target.value)}
+          className="w-full p-2 mb-4 border rounded"
         />
 
         {/* Destino */}
         <label className="block mb-2 font-medium">Destino visitado *</label>
         <input
           type="text"
-          className="w-full p-2 mb-4 border rounded"
-          placeholder="Ej. París, Cancún, Tokio..."
+          placeholder="Ej. París, Cancún, Tokio"
           value={destino}
           onChange={(e) => setDestino(e.target.value)}
+          className="w-full p-2 mb-4 border rounded"
         />
 
         {/* Calificación */}
@@ -132,7 +122,9 @@ export default function NuevaReseña({ onPublicado }) {
           {[1, 2, 3, 4, 5].map((n) => (
             <span
               key={n}
-              className={`cursor-pointer text-3xl ${estrellas >= n ? "text-yellow-400" : "text-gray-300"}`}
+              className={`cursor-pointer text-3xl ${
+                estrellas >= n ? "text-yellow-400" : "text-gray-300"
+              }`}
               onClick={() => setEstrellas(n)}
             >
               ★
@@ -143,11 +135,11 @@ export default function NuevaReseña({ onPublicado }) {
         {/* Comentario */}
         <label className="block mb-2 font-medium">Comentario *</label>
         <textarea
-          className="w-full p-2 mb-4 border rounded"
           rows="5"
           placeholder="Cuéntanos tu experiencia"
           value={comentario}
           onChange={(e) => setComentario(e.target.value)}
+          className="w-full p-2 mb-4 border rounded"
         />
 
         {/* Imagen */}
@@ -155,14 +147,14 @@ export default function NuevaReseña({ onPublicado }) {
         <input
           type="file"
           accept="image/*"
-          onChange={(e) => setImagen(e.target.files[0])} 
+          onChange={(e) => setImagen(e.target.files[0])}
           className="block w-full text-sm text-gray-500
-            file:mr-4 file:py-2 file:px-4
-            file:rounded file:border-0
-            file:text-sm file:font-semibold
-            file:bg-primary file:text-white
-            hover:file:bg-secondary
-            cursor-pointer mb-4"
+                     file:mr-4 file:py-2 file:px-4
+                     file:rounded file:border-0
+                     file:text-sm file:font-semibold
+                     file:bg-primary file:text-white
+                     hover:file:bg-secondary
+                     cursor-pointer mb-4"
         />
         {imagen && (
           <p className="text-sm text-gray-600 mb-4">
@@ -178,6 +170,7 @@ export default function NuevaReseña({ onPublicado }) {
           Publicar reseña
         </button>
 
+        {/* Mensaje de estado */}
         {mensaje && (
           <p className="text-center mt-4 text-green-600 font-medium">{mensaje}</p>
         )}
