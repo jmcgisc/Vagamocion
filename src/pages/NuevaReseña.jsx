@@ -78,6 +78,16 @@ export default function NuevaReseña({ onPublicado }) {
           ¿Cómo fue tu experiencia con <span className="text-primary">Vagamocion Travel?</span>
         </h2>
 
+        {/* Nombre */}
+        <label className="block mb-2 font-medium">Servicio recibido *</label>
+        <input
+          type="text"
+          className="w-full p-2 mb-4 border rounded"
+          placeholder="Ej. Vuelo, Hotel, Tour..."
+          value={servicio}
+          onChange={(e) => setServicio(e.target.value)}
+        />
+
         {/* Servicio */}
         <label className="block mb-2 font-medium">Servicio recibido *</label>
         <input
