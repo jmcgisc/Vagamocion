@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { supabase } from '../components/supabaseClient';
+import axios from "axios";
 import Hero from "../components/Hero";
 
 export default function NuevaReseña({ onPublicado }) {
@@ -14,28 +14,18 @@ export default function NuevaReseña({ onPublicado }) {
   const subirImagen = async () => {
   if (!imagen) return null;
 
-  const ext = imagen.name.split('.').pop();
-  const fileName = `testimonio-${Date.now()}.${ext}`;
+  const formData = new FormData();
+  formData.append("imagen", imagen);
 
-  const { data, error } = await supabase.storage
-    .from('testimonios')
-    .upload(fileName, imagen, {
-      contentType: imagen.type,
-      upsert: true,
+  const { data } = await axios.post("/.netlify/functions/upload-imagen", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
 
-  if (error) {
-    console.error("Error subiendo imagen:", error);
-    throw new Error("Error al subir la imagen");
-  }
-
-  const { data: { publicUrl } } = supabase.storage
-    .from('testimonios')
-    .getPublicUrl(fileName);
-
-  return publicUrl;
+    if (!data.url) throw new Error("Error obteniendo URL de imagen");
+    return data.url;
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,16 +41,14 @@ export default function NuevaReseña({ onPublicado }) {
         imagen_url = await subirImagen();
       }
 
-      const { error } = await supabase.from('reseñas').insert([{
+      await axios.post("/.netlify/functions/testimonios", {
         nombre,
         texto: comentario,
         servicio,
         estrellas,
         destino,
         imagen_url,
-      }]);
-
-      if (error) throw error;
+      });
 
       setMensaje("¡Gracias por tu reseña!");
       setNombre("");
@@ -80,12 +68,15 @@ export default function NuevaReseña({ onPublicado }) {
   return (
     <>
       <Hero className="sticky top-0" />
-      <form onSubmit={handleSubmit} className="pt-40 max-w-xl mx-auto p-4 bg-white shadow-md">
-        <h2 className="text-4xl font-bold mb-4 text-center">
-          ¿Cómo fue tu experiencia con <span className="text-primary">Vagamocion Travel?</span>
+      <form onSubmit={handleSubmit} className="pt-40 max-w-xl mx-auto p-2 bg-white shadow-md">
+        <h2 className="text-4xl font-bold mb-4 mt-10 text-center py-1">
+          ¿Cómo fue tu experiencia con
+        </h2>
+        <h2 className="text-4xl font-bold mb-4 mt-10 text-center py-1 text-primary">
+          Vagamocion Travel?
         </h2>
 
-        <label className="block mb-2 font-medium">Calificación:</label>
+        <label className="block mb-2 font-medium py-4">¡Califícanos con estrellas!</label>
         <div className="flex gap-2 mb-4">
           {[1, 2, 3, 4, 5].map((n) => (
             <span
@@ -98,35 +89,43 @@ export default function NuevaReseña({ onPublicado }) {
           ))}
         </div>
 
+        <label className="block mb-2 font-medium">¿Con qué servicio te ayudamos? *</label>
         <input
           type="text"
           className="w-full p-2 mb-4 border rounded"
-          placeholder="Nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-        />
-        <input
-          type="text"
-          className="w-full p-2 mb-4 border rounded"
-          placeholder="Servicio recibido"
+          placeholder="Ej. Viaje, Hotel, Visado..."
           value={servicio}
           onChange={(e) => setServicio(e.target.value)}
         />
+
+        <label className="block mb-2 font-medium">Nombre</label>
         <input
           type="text"
           className="w-full p-2 mb-4 border rounded"
-          placeholder="Destino visitado"
+          placeholder="Tu nombre"
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+        />
+
+        <label className="block mb-2 font-medium">¿Qué destino visitaste? *</label>
+        <input
+          type="text"
+          className="w-full p-2 mb-4 border rounded"
+          placeholder="Ej. Disney, Cancún, Europa, Asia..."
           value={destino}
           onChange={(e) => setDestino(e.target.value)}
         />
+
+        <label className="block mb-2 font-medium">Escribe un comentario</label>
         <textarea
           className="w-full p-2 mb-4 border rounded"
           rows="4"
-          placeholder="Comentario"
+          placeholder="Cuéntanos cómo fue tu experiencia"
           value={comentario}
           onChange={(e) => setComentario(e.target.value)}
         />
 
+        <label className="block mb-2 font-medium">Subir imagen (opcional)</label>
         <input
           type="file"
           accept="image/*"
@@ -136,7 +135,7 @@ export default function NuevaReseña({ onPublicado }) {
 
         <button
           type="submit"
-          className="w-full bg-primary hover:bg-secondary text-white py-3 px-4 rounded-full transition"
+          className="w-full bg-primary hover:bg-secondary text-white py-3 px-4 full-rounded transition"
         >
           Publicar reseña
         </button>
