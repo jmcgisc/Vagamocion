@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 import Hero from "../components/Hero";
-
 
 export default function NuevaReseña({ onPublicado }) {
   const [nombre, setNombre] = useState("");
@@ -12,29 +11,23 @@ export default function NuevaReseña({ onPublicado }) {
   const [destino, setDestino] = useState("");
   const [imagen, setImagen] = useState(null);
 
+  // 👇 Referencia al input file
+  const fileInputRef = useRef(null);
+
   const subirImagen = async () => {
-  if (!imagen) return null;
+    if (!imagen) return null;
 
-  const formData = new FormData();
-  formData.append("imagen", imagen);
+    const formData = new FormData();
+    formData.append("imagen", imagen);
 
-  try {
-    const res = await fetch("/.netlify/functions/upload-imagen", {
-      method: "POST",
-      body: formData,
+    const { data } = await axios.post("/.netlify/functions/upload-imagen", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
 
-    const data = await res.json();
-
-    if (!res.ok || !data.url) {
-      throw new Error("Error obteniendo URL de imagen");
-    }
-
+    if (!data.url) throw new Error("Error obteniendo URL de imagen");
     return data.url;
-  } catch (error) {
-    console.error("Error al subir imagen:", error);
-    throw new Error("Error al subir imagen");
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -79,14 +72,11 @@ export default function NuevaReseña({ onPublicado }) {
     <>
       <Hero className="sticky top-0" />
       <form onSubmit={handleSubmit} className="pt-40 max-w-xl mx-auto p-2 bg-white shadow-md">
-        <h2 className="text-4xl font-bold mb-4 mt-10 text-center py-1">
-          ¿Cómo fue tu experiencia con
-        </h2>
-        <h2 className="text-4xl font-bold mb-4 mt-10 text-center py-1 text-primary">
-          Vagamocion Travel?
+        <h2 className="text-4xl font-bold mb-4 text-center">
+          ¿Cómo fue tu experiencia con <span className="text-primary">Vagamocion Travel?</span>
         </h2>
 
-        <label className="block mb-2 font-medium py-4">¡Califícanos con estrellas!</label>
+        <label className="block mb-2 font-medium">¡Califícanos con estrellas!</label>
         <div className="flex gap-2 mb-4">
           {[1, 2, 3, 4, 5].map((n) => (
             <span
@@ -99,16 +89,6 @@ export default function NuevaReseña({ onPublicado }) {
           ))}
         </div>
 
-        <label className="block mb-2 font-medium">¿Con qué servicio te ayudamos? *</label>
-        <input
-          type="text"
-          className="w-full p-2 mb-4 border rounded"
-          placeholder="Ej. Viaje, Hotel, Visado..."
-          value={servicio}
-          onChange={(e) => setServicio(e.target.value)}
-        />
-
-        <label className="block mb-2 font-medium">Nombre</label>
         <input
           type="text"
           className="w-full p-2 mb-4 border rounded"
@@ -116,17 +96,20 @@ export default function NuevaReseña({ onPublicado }) {
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
         />
-
-        <label className="block mb-2 font-medium">¿Qué destino visitaste? *</label>
         <input
           type="text"
           className="w-full p-2 mb-4 border rounded"
-          placeholder="Ej. Disney, Cancún, Europa, Asia..."
+          placeholder="Servicio recibido"
+          value={servicio}
+          onChange={(e) => setServicio(e.target.value)}
+        />
+        <input
+          type="text"
+          className="w-full p-2 mb-4 border rounded"
+          placeholder="Destino visitado"
           value={destino}
           onChange={(e) => setDestino(e.target.value)}
         />
-
-        <label className="block mb-2 font-medium">Escribe un comentario</label>
         <textarea
           className="w-full p-2 mb-4 border rounded"
           rows="4"
@@ -135,17 +118,37 @@ export default function NuevaReseña({ onPublicado }) {
           onChange={(e) => setComentario(e.target.value)}
         />
 
-        <label className="block mb-2 font-medium">Subir imagen (opcional)</label>
-        <input
-          type="file"
-          accept="image/*"
-          className="mb-4"
-          onChange={(e) => setImagen(e.target.files[0])}
-        />
+        <div className="mb-4">
+          <label className="block mb-2 font-medium">Subir imagen (opcional)</label>
+
+          {/* 👇 Botón que dispara el input */}
+          <div
+            onClick={() => fileInputRef.current?.click()}
+            className="cursor-pointer inline-block bg-primary text-white py-2 px-4 rounded hover:bg-secondary transition"
+          >
+            Seleccionar imagen
+          </div>
+
+          {/* 👇 Input oculto */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => setImagen(e.target.files[0])}
+          />
+
+          {/* Nombre del archivo seleccionado */}
+          {imagen && (
+            <p className="text-sm text-gray-600 mt-2">
+              Imagen seleccionada: <strong>{imagen.name}</strong>
+            </p>
+          )}
+        </div>
 
         <button
           type="submit"
-          className="w-full bg-primary hover:bg-secondary text-white py-3 px-4 full-rounded transition"
+          className="w-full bg-primary hover:bg-secondary text-white py-3 px-4 rounded-full transition"
         >
           Publicar reseña
         </button>
