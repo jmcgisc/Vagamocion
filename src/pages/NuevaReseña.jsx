@@ -50,6 +50,7 @@ export default function NuevaReseña({ onPublicado }) {
       }
       // en v2 urlData.publicUrl es el campo correcto
       imagen_url = urlData.publicUrl;
+          }
 
     // 4. Enviar los datos del testimonio al endpoint Netlify
     try {
