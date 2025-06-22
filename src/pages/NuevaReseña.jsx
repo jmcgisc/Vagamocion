@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import axios from "axios";
 import Hero from "../components/Hero";
 
@@ -7,150 +7,71 @@ export default function NuevaReseña({ onPublicado }) {
   const [comentario, setComentario] = useState("");
   const [servicio, setServicio] = useState("");
   const [estrellas, setEstrellas] = useState(0);
-  const [mensaje, setMensaje] = useState("");
   const [destino, setDestino] = useState("");
   const [imagen, setImagen] = useState(null);
+  const [mensaje, setMensaje] = useState("");
 
-  // 👇 Referencia al input file
-  const fileInputRef = useRef(null);
-
-  const subirImagen = async () => {
-    if (!imagen) return null;
-
-    const formData = new FormData();
-    formData.append("imagen", imagen);
-
-    const { data } = await axios.post("/.netlify/functions/upload-imagen", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+  const subirImagenSigned = async () => {
+    const ext = imagen.name.split('.').pop();
+    const fileName = `testimonio-${Date.now()}.${ext}`;
+    // 1) Pide signed URL
+    const { data } = await axios.post("/.netlify/functions/generar-url-firmada", {
+      fileName,
+      fileType: imagen.type
     });
-
-    if (!data.url) throw new Error("Error obteniendo URL de imagen");
-    return data.url;
+    if (!data.signedUrl) throw new Error("No se obtuvo signedUrl");
+    // 2) Sube directo a Supabase
+    await fetch(data.signedUrl, {
+      method: "PUT",
+      headers: { "Content-Type": imagen.type },
+      body: imagen
+    });
+    return data.publicUrl;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!nombre || !comentario || !servicio || estrellas === 0 || !destino) {
-      alert("Por favor, completa todos los campos requeridos.");
-      return;
+    if (!nombre||!comentario||!servicio||estrellas===0||!destino) {
+      return alert("Completa todos los campos");
     }
-
     try {
-      let imagen_url = null;
-      if (imagen) {
-        imagen_url = await subirImagen();
-      }
-
+      const imagen_url = imagen ? await subirImagenSigned() : null;
       await axios.post("/.netlify/functions/testimonios", {
-        nombre,
-        texto: comentario,
-        servicio,
-        estrellas,
-        destino,
-        imagen_url,
+        nombre, texto: comentario, servicio, estrellas, destino, imagen_url
       });
-
-      setMensaje("¡Gracias por tu reseña!");
-      setNombre("");
-      setComentario("");
-      setServicio("");
-      setEstrellas(0);
-      setDestino("");
-      setImagen(null);
-      if (onPublicado) onPublicado();
-      setTimeout(() => setMensaje(""), 3000);
-    } catch (err) {
-      console.error("Error enviando reseña:", err);
-      setMensaje("Ocurrió un error. Intenta de nuevo.");
+      setMensaje("¡Gracias!"); 
+      // limpia campos...
+      setNombre(""); setComentario(""); setServicio("");
+      setEstrellas(0); setDestino(""); setImagen(null);
+      if(onPublicado) onPublicado();
+    } catch(err) {
+      console.error(err);
+      setMensaje("Error, intenta de nuevo"); 
     }
+    setTimeout(()=>setMensaje(""),3000);
   };
 
   return (
     <>
       <Hero className="sticky top-0" />
-      <form onSubmit={handleSubmit} className="pt-40 max-w-xl mx-auto p-2 bg-white shadow-md">
-        <h2 className="text-4xl font-bold mb-4 text-center">
-          ¿Cómo fue tu experiencia con <span className="text-primary">Vagamocion Travel?</span>
-        </h2>
-
-        <label className="block mb-2 font-medium">¡Califícanos con estrellas!</label>
-        <div className="flex gap-2 mb-4">
-          {[1, 2, 3, 4, 5].map((n) => (
-            <span
-              key={n}
-              className={`cursor-pointer text-2xl ${estrellas >= n ? "text-yellow-400" : "text-gray-300"}`}
-              onClick={() => setEstrellas(n)}
-            >
-              ★
-            </span>
-          ))}
-        </div>
-
-        <input
-          type="text"
-          className="w-full p-2 mb-4 border rounded"
-          placeholder="Tu nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-        />
-        <input
-          type="text"
-          className="w-full p-2 mb-4 border rounded"
-          placeholder="Servicio recibido"
-          value={servicio}
-          onChange={(e) => setServicio(e.target.value)}
-        />
-        <input
-          type="text"
-          className="w-full p-2 mb-4 border rounded"
-          placeholder="Destino visitado"
-          value={destino}
-          onChange={(e) => setDestino(e.target.value)}
-        />
-        <textarea
-          className="w-full p-2 mb-4 border rounded"
-          rows="4"
-          placeholder="Cuéntanos cómo fue tu experiencia"
-          value={comentario}
-          onChange={(e) => setComentario(e.target.value)}
-        />
-
+      <form onSubmit={handleSubmit} className="pt-40 max-w-xl mx-auto p-4 bg-white shadow-md">
+        <h2 className="text-2xl font-bold mb-4 text-center">¿Cómo fue tu experiencia?</h2>
+        {/* ... tus inputs de nombre, servicio, destino, estrellas, comentario */}
         <div className="mb-4">
-        <label htmlFor="imagen" className="block mb-2 font-medium">Subir imagen (opcional)</label>
-
-        {/* Input visible pero estilizado como botón */}
-        <input
-          id="imagen"
-          type="file"
-          accept="image/*"
-          onChange={(e) => setImagen(e.target.files[0])}
-          className="block w-full text-sm text-gray-500
-            file:mr-4 file:py-2 file:px-4
-            file:rounded file:border-0
-            file:text-sm file:font-semibold
-            file:bg-primary file:text-white
-            hover:file:bg-secondary
-            cursor-pointer"
-        />
-
-          {imagen && (
-            <p className="text-sm text-gray-600 mt-2">
-              Imagen seleccionada: <strong>{imagen.name}</strong>
-            </p>
-          )}
+          <label className="block mb-2">Subir imagen (opcional)</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={e=>setImagen(e.target.files[0])}
+            className="block w-full text-sm text-gray-500
+               file:py-2 file:px-4 file:border-0
+               file:bg-primary file:text-white
+               hover:file:bg-secondary cursor-pointer"
+          />
+          {imagen && <p className="mt-2 text-sm">Seleccionado: {imagen.name}</p>}
         </div>
-
-        <button
-          type="submit"
-          className="w-full bg-primary hover:bg-secondary text-white py-3 px-4 rounded-full transition"
-        >
-          Publicar reseña
-        </button>
-
-        {mensaje && <p className="text-center mt-4 text-green-600 font-semibold">{mensaje}</p>}
+        <button type="submit" className="w-full bg-primary text-white py-3 rounded">Publicar reseña</button>
+        {mensaje && <p className="mt-4 text-center">{mensaje}</p>}
       </form>
     </>
   );
