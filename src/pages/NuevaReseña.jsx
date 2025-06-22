@@ -37,18 +37,19 @@ export default function NuevaReseña({ onPublicado }) {
         return;
       }
 
-      // 3. Obtener la URL pública de la imagen
-      const { publicURL, error: urlError } = supabase.storage
+      // 3) Obtener la URL pública (SDK v2)
+      const { data: urlData, error: urlError } = supabase
+        .storage
         .from("testimonios")
         .getPublicUrl(fileName);
 
       if (urlError) {
         console.error("Error obteniendo URL pública:", urlError);
-        setMensaje("Error obteniendo URL de la imagen.");
+        setMensaje("Error obteniendo URL de imagen");
         return;
       }
-      imagen_url = publicURL;
-    }
+      // en v2 urlData.publicUrl es el campo correcto
+      imagen_url = urlData.publicUrl;
 
     // 4. Enviar los datos del testimonio al endpoint Netlify
     try {
