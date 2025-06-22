@@ -83,7 +83,7 @@ export default function NuevaReseña({ onPublicado }) {
         <input
           type="text"
           className="w-full p-2 mb-4 border rounded"
-          placeholder="Ej. Vuelo, Hotel, Tour..."
+          placeholder="Nombre..."
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
         />
