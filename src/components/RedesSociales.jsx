@@ -87,7 +87,7 @@ export default function RedesSociales() {
       <div className="mt-6 text-center text-xs text-gray-400 dark:text-gray-600">
         <p>© {new Date().getFullYear()} Vagamocion Travel. Todos los derechos reservados.</p>
         <p className="mt-1 text-[11px] italic"> Powered by 
-          <a href="https://codexa.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-indigo-500 transition"> CODEXA</a>
+           <a href="https://stratik.com/" target="_blank" rel="noopener noreferrer" className="font-semibold text-indigo-500 transition"> STRATIK </a>
         </p>
       </div>
     </footer>
