@@ -11,6 +11,7 @@ import CtaViaje from "../components/CtaViaje";
 import FormularioContacto from "../components/FormularioContacto";
 import Servicios from "../components/Servicios";
 import WhatsAppFloat from "../components/WhatsAppFloat";
+import VisaCheckerNuevo from '../components/VisaCheckerNuevo';
 import Footer from "../components/Footer";
 import QuienesSomos from "../components/QuienesSomos"; 
 import 'swiper/css';
@@ -339,6 +340,13 @@ export default function Home() {
       </section>
 
       <WhatsAppFloat/>
+
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <VisaCheckerNuevo />
+        </div>
+      </section>
+      
       <Footer/>
 
     </div>

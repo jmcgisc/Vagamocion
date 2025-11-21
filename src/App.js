@@ -49,7 +49,6 @@ export default function App() {
           <Route path="/ilustrado" element={<PageWrapper><Illustrated /></PageWrapper>} /> 
           <Route path="*" element={<NotFound />} />
 
-
           <Route
             path="/disclaimer"
             element={
@@ -60,7 +59,6 @@ export default function App() {
               </PageWrapper>
             }
           />
-
 
           <Route
             path="/testimonios"
