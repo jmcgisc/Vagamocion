@@ -14,15 +14,23 @@ export default function MapaInteractivo() {
   return (
     <section className="py-16 bg-blue-50 dark:bg-gray-800">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-white">Encuentra tu destino</h2>
+        <h2 className="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-white">
+          Encuentra tu destino
+        </h2>
+
         <div className="h-[500px] rounded-xl overflow-hidden">
-          <MapContainer center={[40.4168, -3.7038]} zoom={4} className="h-full w-full">
+          <MapContainer
+            center={[40.4168, -3.7038]}
+            zoom={4}
+            className="h-full w-full"
+          >
             <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://carto.com/">CARTO</a> — Mapa Positron'
+url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
             />
+
             <Marker position={[40.4168, -3.7038]}>
-              <Popup>Madrid - Inicio de tu aventura</Popup>
+              <Popup>Madrid — Punto de inicio</Popup>
             </Marker>
           </MapContainer>
         </div>
