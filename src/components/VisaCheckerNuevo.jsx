@@ -134,40 +134,36 @@ export default function VisaChecker() {
       )}
 
       {resultado && !resultado.error && (
-        <div className="mt-12 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl p-12 text-center border-4 border-emerald-300">
+        <div className="mt-12 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl p-6 sm:p-12 text-center border-4 border-emerald-300"> {/* Ajuste en padding */}
           <img 
             src={paisSeleccionado.bandera} 
             alt={resultado.destino}
-            className="w-56 h-40 mx-auto rounded-2xl shadow-2xl border-8 border-white mb-8"
+            className="w-40 h-28 sm:w-56 sm:h-40 mx-auto rounded-2xl shadow-2xl border-8 border-white mb-8" // Ajuste en tamaño de bandera para móvil
           />
 
-          {/* <div className="text-9xl mb-6 font-bold">
-            {resultado.necesita_visa === "NO" ? "Sí" : "No"}
-          </div> */}
-
-          <h3 className="text-5xl font-bold mb-6">
+          <h3 className="text-3xl sm:text-5xl font-bold mb-6"> {/* <--- CLAVE: Reducción de texto en móvil */}
             {resultado.necesita_visa === "NO" ? "¡NO necesitas visa!" : "SÍ necesitas visa"}
           </h3>
 
-          <p className="text-4xl mb-10 font-bold">
+          <p className="text-xl sm:text-4xl mb-10 font-bold"> {/* <--- CLAVE: Reducción de texto en móvil */}
             México → <span className="text-emerald-600">{resultado.destino}</span>
           </p>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto text-left text-lg">
-            <div className="bg-white p-6 rounded-2xl shadow-lg">
+          <div className="grid md:grid-cols-2 gap-4 sm:gap-8 max-w-3xl mx-auto text-left text-lg">
+            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg"> {/* Ajuste en padding */}
               <strong>Tipo:</strong><br/>
-              <span className="text-2xl font-bold text-emerald-600">{resultado.tipo}</span>
+              <span className="text-xl sm:text-2xl font-bold text-emerald-600">{resultado.tipo}</span> {/* <--- CLAVE */}
             </div>
             {resultado.dias && (
-              <div className="bg-white p-6 rounded-2xl shadow-lg">
+              <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg"> {/* Ajuste en padding */}
                 <strong>Estancia:</strong><br/>
-                <span className="text-3xl font-bold text-emerald-600">{resultado.dias} días</span>
+                <span className="text-2xl sm:text-3xl font-bold text-emerald-600">{resultado.dias} días</span> {/* <--- CLAVE */}
               </div>
             )}
             {resultado.nota && (
-              <div className="md:col-span-2 bg-amber-50 p-6 rounded-2xl border-2 border-amber-400">
+              <div className="md:col-span-2 bg-amber-50 p-4 sm:p-6 rounded-2xl border-2 border-amber-400"> {/* Ajuste en padding */}
                 <strong className="text-amber-900">Nota:</strong><br/>
-                <span className="text-amber-900 text-lg">{resultado.nota}</span>
+                <span className="text-amber-900 text-base sm:text-lg">{resultado.nota}</span> {/* <--- CLAVE */}
               </div>
             )}
           </div>
