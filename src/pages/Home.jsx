@@ -14,7 +14,6 @@ import WhatsAppFloat from "../components/WhatsAppFloat";
 import VisaCheckerNuevo from '../components/VisaCheckerNuevo';
 import Footer from "../components/Footer";
 import QuienesSomos from "../components/QuienesSomos";
-// Asegúrate de que este import apunte a la ruta correcta de tu componente
 import ElevenLabsWidget from '../components/ElevenLabsWidget';
 import AsistenteViaje from '../components/AsistenteViaje';
 
@@ -414,16 +413,14 @@ export default function Home() {
                     {/* Título */}
                     <div className="text-center mb-4">
                       <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
-                        Tu Asistente de Viaje ✈️
+                        Hola soy Karina, tu asistente virtual ✈️
                       </h3>
                       <p className="text-gray-500 text-sm mt-1">
-                        Pregúntame sobre destinos, vuelos o itinerarios.
+                        Vamos a ayudarte a planificar tu viaje.
                       </p>
                     </div>
 
-                    {/* --- AQUÍ VA EL NUEVO COMPONENTE --- */}
                     <AsistenteViaje />
-                    {/* ----------------------------------- */}
 
                   </div>
                 </div>
