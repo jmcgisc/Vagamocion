@@ -409,7 +409,7 @@ export default function Home() {
                           <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 1.5a3 3 0 00-3 3v4.5a3 3 0 006 0v-4.5a3 3 0 00-3-3z" />
                         </svg>
                       </div>
-                      <span className="font-semibold text-gray-700 dark:text-gray-200">Hablar con IA</span>
+                      <span className="font-semibold text-gray-700 dark:text-gray-200">Hablar con Agente</span>
                     </button>
 
                     {/* Botón TEXTO */}
@@ -422,7 +422,7 @@ export default function Home() {
                           <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.286 3.423.379.35.028.719.048 1.09.048 1.481 0 5.99-1.2 5.99-4.2 0-3.05-4.59-4.2-5.99-4.2s-5.99 1.15-5.99 4.2z" />
                         </svg>
                       </div>
-                      <span className="font-semibold text-gray-700 dark:text-gray-200">Chatear</span>
+                      <span className="font-semibold text-gray-700 dark:text-gray-200">Chat</span>
                     </button>
                   </div>
                 </div>
