@@ -16,6 +16,7 @@ import Footer from "../components/Footer";
 import QuienesSomos from "../components/QuienesSomos";
 import ElevenLabsWidget from '../components/ElevenLabsWidget';
 import AsistenteViaje from '../components/AsistenteViaje';
+import ChatViaje from '../components/ChatViaje';
 
 import 'swiper/css/navigation';
 
@@ -81,6 +82,14 @@ export default function Home() {
 
   // --- NUEVO ESTADO PARA LA IA ---
   const [activarIA, setActivarIA] = useState(false);
+
+  // NUEVO ESTADO: Controla si eligió 'voz', 'texto' o 'seleccion'
+  const [modoIA, setModoIA] = useState('seleccion');
+
+  const cerrarAsistente = () => {
+    setActivarIA(false);
+    setModoIA('seleccion');
+  };
 
   return (
     <>
@@ -358,73 +367,88 @@ export default function Home() {
         {activarIA && (
           <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
 
-            {/* 1. Fondo oscuro con desenfoque (Backdrop) */}
+            {/* Backdrop */}
             <div
               className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
-              onClick={() => setActivarIA(false)} // Cierra al dar clic fuera
+              onClick={cerrarAsistente}
             ></div>
 
-            {/* 2. La tarjeta del Modal */}
-            <div className="relative bg-white dark:bg-gray-900 w-full max-w-lg rounded-3xl shadow-2xl p-8 animate-fade-in-up border border-gray-100 dark:border-gray-800">
+            {/* Contenedor del Modal */}
+            <div className="relative bg-white dark:bg-gray-900 w-full max-w-lg rounded-3xl shadow-2xl animate-fade-in-up border border-gray-100 dark:border-gray-800 overflow-hidden">
 
-              {/* Botón de Cerrar (X) */}
-              <button
-                onClick={() => setActivarIA(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors bg-gray-100 dark:bg-gray-800 rounded-full p-2"
-                aria-label="Cerrar asistente"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+              {/* Botón Cerrar (Solo visible si NO estamos en el chat, el chat tiene su propia X) */}
+              {modoIA !== 'texto' && (
+                <button
+                  onClick={cerrarAsistente}
+                  className="absolute top-4 right-4 z-10 text-gray-400 hover:text-red-500 transition-colors bg-gray-100 dark:bg-gray-800 rounded-full p-2"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
 
-              {/* Título opcional para dar contexto */}
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
-                  Tu Asistente de Viaje ✈️
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
-                  Habla con nuestra IA para diseñar tu aventura ideal.
-                </p>
-              </div>
+              {/* === PANTALLA 1: SELECCIÓN (Voz o Texto) === */}
+              {modoIA === 'seleccion' && (
+                <div className="p-8 text-center">
+                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+                    Tu Asistente de Viaje ✈️
+                  </h3>
+                  <p className="text-gray-500 dark:text-gray-400 mb-8">
+                    ¿Cómo prefieres planificar tu aventura hoy?
+                  </p>
 
-              {/* 3. El Widget de ElevenLabs (Contenido) */}
-              {/* Modal Centrado con SDK Nativo */}
-              {activarIA && (
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-
-                  {/* Fondo oscuro */}
-                  <div
-                    className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
-                    onClick={() => setActivarIA(false)}
-                  ></div>
-
-                  {/* Tarjeta del Modal */}
-                  <div className="relative bg-white dark:bg-gray-900 w-full max-w-lg rounded-3xl shadow-2xl p-8 animate-fade-in-up border border-gray-100 dark:border-gray-800">
-
-                    {/* Botón Cerrar */}
+                  <div className="grid grid-cols-2 gap-4">
+                    {/* Botón VOZ */}
                     <button
-                      onClick={() => setActivarIA(false)}
-                      className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors bg-gray-50 dark:bg-gray-800 rounded-full p-2"
+                      onClick={() => setModoIA('voz')}
+                      className="flex flex-col items-center justify-center p-6 border-2 border-blue-100 rounded-2xl hover:border-blue-600 hover:bg-blue-50 transition-all group"
                     >
-                      ✕
+                      <div className="bg-blue-100 text-blue-600 p-4 rounded-full mb-3 group-hover:scale-110 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 1.5a3 3 0 00-3 3v4.5a3 3 0 006 0v-4.5a3 3 0 00-3-3z" />
+                        </svg>
+                      </div>
+                      <span className="font-semibold text-gray-700 dark:text-gray-200">Hablar con IA</span>
                     </button>
 
-                    {/* Título */}
-                    <div className="text-center mb-4">
-                      <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
-                        Hola soy Karina, tu asistente virtual ✈️
-                      </h3>
-                      <p className="text-gray-500 text-sm mt-1">
-                        Vamos a ayudarte a planificar tu viaje.
-                      </p>
-                    </div>
-
-                    <AsistenteViaje />
-
+                    {/* Botón TEXTO */}
+                    <button
+                      onClick={() => setModoIA('texto')}
+                      className="flex flex-col items-center justify-center p-6 border-2 border-purple-100 rounded-2xl hover:border-purple-600 hover:bg-purple-50 transition-all group"
+                    >
+                      <div className="bg-purple-100 text-purple-600 p-4 rounded-full mb-3 group-hover:scale-110 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.286 3.423.379.35.028.719.048 1.09.048 1.481 0 5.99-1.2 5.99-4.2 0-3.05-4.59-4.2-5.99-4.2s-5.99 1.15-5.99 4.2z" />
+                        </svg>
+                      </div>
+                      <span className="font-semibold text-gray-700 dark:text-gray-200">Chatear</span>
+                    </button>
                   </div>
                 </div>
               )}
+
+              {/* === PANTALLA 2: VOZ (Tu componente existente) === */}
+              {modoIA === 'voz' && (
+                <div className="p-8">
+                  <div className="text-center mb-4">
+                    <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
+                      Hola soy Karina 🎙️
+                    </h3>
+                    <p className="text-gray-500 text-sm mt-1">
+                      Hablemos sobre tu próximo destino.
+                    </p>
+                  </div>
+                  {/* Componente existente */}
+                  <AsistenteViaje />
+                </div>
+              )}
+
+              {/* === PANTALLA 3: TEXTO (Nuevo componente) === */}
+              {modoIA === 'texto' && (
+                <ChatViaje onClose={cerrarAsistente} />
+              )}
+
             </div>
           </div>
         )}
