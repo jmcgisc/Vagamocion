@@ -91,7 +91,7 @@ export default function ChatViaje({ onClose }) {
     const enviarAN8N = async (data) => {
         try {
             // Reemplaza con tu URL de Webhook de producción de n8n
-            const webhookUrl = "https://n8n.stratik.cloud/webhook-test/karina";
+            const webhookUrl = "https://n8n.stratik.cloud/webhook/karina";
 
             const response = await fetch(webhookUrl, {
                 method: "POST",
