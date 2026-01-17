@@ -91,7 +91,7 @@ export default function ChatViaje({ onClose }) {
     const enviarAN8N = async (data) => {
         try {
             // Reemplaza con tu URL de Webhook de producción de n8n
-            const webhookUrl = "https://tu-instancia-n8n.com/webhook/karina";
+            const webhookUrl = "https://n8n.stratik.cloud/webhook-test/karina";
 
             const response = await fetch(webhookUrl, {
                 method: "POST",
@@ -132,8 +132,8 @@ export default function ChatViaje({ onClose }) {
                 {messages.map((msg, index) => (
                     <div key={index} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                         <div className={`max-w-[80%] p-3 rounded-2xl ${msg.type === 'user'
-                                ? 'bg-blue-600 text-white rounded-br-none'
-                                : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm'
+                            ? 'bg-blue-600 text-white rounded-br-none'
+                            : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm'
                             }`}>
                             {msg.text}
                         </div>
