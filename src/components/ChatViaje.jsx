@@ -91,12 +91,12 @@ export default function ChatViaje({ onClose }) {
     const enviarAN8N = async (data) => {
         try {
 
+            const webhookUrl = "https://n8n.stratik.cloud/webhook/karina";
+
             const payload = {
                 ...data,
-                origen: "chat" // <--- ESTA ES LA CLAVE
+                origen: "chat"
             };
-
-            const webhookUrl = "https://n8n.stratik.cloud/webhook/karina";
 
             const response = await fetch(webhookUrl, {
                 method: "POST",
@@ -106,7 +106,7 @@ export default function ChatViaje({ onClose }) {
                 body: JSON.stringify(payload),
             });
 
-            const result = await response.text(); // O .json() dependiendo de tu nodo "Respond to Webhook"
+            const result = await response.text();
 
             setLoading(false);
             setMessages(prev => [
