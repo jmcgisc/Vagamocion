@@ -71,7 +71,7 @@ export default function ChatViaje({ onClose }) {
                 setLoading(true);
 
                 // Simular mensaje de espera
-                setMessages(prev => [...prev, { type: "bot", text: "Perfecto. Estoy buscando vuelos, hoteles y creando tu itinerario. Esto puede tomar unos minutos, si gustas puedes cerrar esta ventana... ⏳" }]);
+                setMessages(prev => [...prev, { type: "bot", text: "Perfecto. Estoy buscando vuelos, hoteles y creando tu itinerario, te lo envío por correo. Esto puede tomar unos minutos, si gustas puedes cerrar esta ventana... ⏳" }]);
 
                 await enviarAN8N(newData);
                 return; // Salimos para no agregar respuesta genérica abajo
