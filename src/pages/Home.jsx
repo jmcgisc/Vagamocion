@@ -16,6 +16,7 @@ import VisaCheckerNuevo from '../components/VisaCheckerNuevo';
 import Footer from "../components/Footer";
 import QuienesSomos from "../components/QuienesSomos";
 import AsistenteViaje from '../components/AsistenteViaje';
+import BuscadorViajes from '../components/BuscadorViajes';
 import ChatViaje from '../components/ChatViaje';
 
 import 'swiper/css/navigation';
@@ -191,24 +192,23 @@ export default function Home() {
             </div>
           </div>
         )}
+        <BuscadorViajes />
 
         {/* ... (resto del código: destinos destacados, modales de destinos, servicios, footer, etc.) ... */}
 
         {/* Asegúrate de mantener todo el resto del código original debajo de aquí */}
-        <section id="destinos_destacados" className="bg-gray-50 w-full px-8 md:px-20 py-16 dark:bg-gray-950">
-          {/* ... lógica de destinos ... */}
+        {/* <section id="destinos_destacados" className="bg-gray-50 w-full px-8 md:px-20 py-16 dark:bg-gray-950">
           <h3 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-12">Destinos destacados</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {destinos.map((destino) => (
               <div key={destino.id} className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_0_10px_2px_#00fff7] transition-all duration-500 cursor-pointer" onClick={() => setSelectedDestino(destino)}>
                 <img src={destino.imagen} alt={destino.nombre} className="w-full h-56 object-cover transition duration-500 group-hover:scale-105" />
-                {/* ... resto de las tarjetas ... */}
                 <div className="p-6"><h4 className="text-xl font-semibold text-center">{destino.nombre}</h4></div>
               </div>
             ))}
           </div>
-          {/* ... Modales de destinos ... */}
-        </section>
+        </section> */}
+
 
         {/* ... Resto de componentes (Servicios, CTA, etc) ... */}
         <Servicios />

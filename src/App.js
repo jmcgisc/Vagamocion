@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from 'framer-motion';
 import { lazy, Suspense } from "react";
-import Spinner from './components/Spinner';  
+import Spinner from './components/Spinner';
+import SearchResults from "./pages/SearchResults";
 
 // Lazy load de páginas
 const Ofertas = lazy(() => import("./pages/Ofertas"));
@@ -46,8 +47,9 @@ export default function App() {
           <Route path="/aventura" element={<PageWrapper><Adventure /></PageWrapper>} />
           <Route path="/urbano" element={<PageWrapper><Urban /></PageWrapper>} />
           <Route path="/tropical" element={<PageWrapper><Tropical /></PageWrapper>} />
-          <Route path="/ilustrado" element={<PageWrapper><Illustrated /></PageWrapper>} /> 
+          <Route path="/ilustrado" element={<PageWrapper><Illustrated /></PageWrapper>} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/resultados" element={<SearchResults />} />
 
           <Route
             path="/disclaimer"
