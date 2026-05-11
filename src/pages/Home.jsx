@@ -21,7 +21,6 @@ import ChatViaje from '../components/ChatViaje';
 
 import 'swiper/css/navigation';
 
-// ... (tu constante 'destinos' se mantiene igual)
 const destinos = [ /* ... */];
 
 export default function Home() {
