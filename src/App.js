@@ -14,6 +14,7 @@ const Home = lazy(() => import("./pages/Home"));
 const Disclaimer = lazy(() => import("./pages/Disclaimer"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const TestimoniosPage = lazy(() => import("./pages/TestimoniosPage"));
+const NuevaReseña = lazy(() => import("./pages/NuevaReseña"));
 
 const pageVariants = {
   initial: { opacity: 0, y: 20 },
@@ -68,6 +69,16 @@ export default function App() {
               <PageWrapper>
                 <Suspense fallback={<Spinner />}>
                   <TestimoniosPage />
+                </Suspense>
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/nueva-resena"
+            element={
+              <PageWrapper>
+                <Suspense fallback={<Spinner />}>
+                  <NuevaReseña />
                 </Suspense>
               </PageWrapper>
             }
