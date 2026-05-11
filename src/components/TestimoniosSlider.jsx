@@ -22,7 +22,7 @@ export default function TestimoniosSlider() {
   useEffect(() => {
     const fetchTestimonios = async () => {
       try {
-        const response = await axios.get("/.netlify/functions/testimonios");
+        const response = await axios.get("/api/testimonios");
         setTestimonios(response.data);
       } catch (error) {
         console.error("Error al obtener testimonios:", error);

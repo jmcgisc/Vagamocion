@@ -52,10 +52,10 @@ export default function NuevaReseña({ onPublicado }) {
       imagen_url = urlData.publicUrl;
           }
 
-    // 4. Enviar los datos del testimonio al endpoint Netlify
+    // 4. Enviar los datos del testimonio al endpoint Vercel
     try {
       await axios.post(
-        "/.netlify/functions/testimonios",
+        "/api/testimonios",
         { nombre, servicio, destino, estrellas, texto: comentario, imagen_url },
         { headers: { "Content-Type": "application/json" } }
       );
